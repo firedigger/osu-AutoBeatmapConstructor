@@ -17,9 +17,9 @@
         <Slider x:Name="spacingSlider" HorizontalAlignment="Left" Margin="104,134,0,0" VerticalAlignment="Top" Width="82" Value="25" Minimum="0" Maximum="100"/>
         <Label x:Name="label3" Content="Shift" HorizontalAlignment="Left" Margin="15,158,0,0" VerticalAlignment="Top"/>
         <Slider x:Name="shiftSlider" HorizontalAlignment="Left" Margin="104,166,0,0" VerticalAlignment="Top" Width="82" Value="0" Minimum="0" Maximum="50"/>
-        <CheckBox x:Name="randomSpacingCheckBox" Content="Random" HorizontalAlignment="Left" Margin="198,134,0,0" VerticalAlignment="Top"/>
-        <CheckBox x:Name="randomShiftCheckBox" Content="Random" HorizontalAlignment="Left" Margin="198,166,0,0" VerticalAlignment="Top" Height="18"/>
         <TextBox x:Name="numberOfPointsTextbox" HorizontalAlignment="Left" Height="20" Margin="129,14,0,0" TextWrapping="Wrap" Text="12" VerticalAlignment="Top" Width="102"/>
+        <Button x:Name="randomSpacingButton" Content="Random" HorizontalAlignment="Left" Margin="202,132,0,0" VerticalAlignment="Top" Width="59" Click="randomSpacingButton_Click"/>
+        <Button x:Name="randomShiftButton" Content="Random" HorizontalAlignment="Left" Margin="202,164,0,0" VerticalAlignment="Top" Width="59" Click="randomShiftButton_Click"/>
 
     </Grid>
 </Window>

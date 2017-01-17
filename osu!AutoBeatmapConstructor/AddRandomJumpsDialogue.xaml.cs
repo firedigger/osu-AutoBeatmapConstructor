@@ -91,5 +91,10 @@ namespace osu_AutoBeatmapConstructor
         {
             numberOfNotesTextbox.Visibility = Visibility.Hidden;
         }
+
+        private void randomSpacingButton_Click(object sender, RoutedEventArgs e)
+        {
+            Utils.randomizeSlider(this.spacingSlider);
+        }
     }
 }

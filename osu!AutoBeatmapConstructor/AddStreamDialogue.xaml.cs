@@ -90,5 +90,15 @@ namespace osu_AutoBeatmapConstructor
         {
             numberOfPatternsTextbox.Visibility = Visibility.Visible;
         }
+
+        private void randomSpacingButton_Click(object sender, RoutedEventArgs e)
+        {
+            Utils.randomizeSlider(this.spacingSlider);
+        }
+
+        private void randomShiftButton_Click(object sender, RoutedEventArgs e)
+        {
+            Utils.randomizeSlider(this.shiftSlider);
+        }
     }
 }

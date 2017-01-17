@@ -14,7 +14,6 @@
         <CheckBox x:Name="tillEndCheckbox" Content="Till the end" HorizontalAlignment="Left" Margin="122,41,0,0" VerticalAlignment="Top" Checked="tillEndCheckbox_checked" Unchecked="tillEndCheckbox_Unchecked" Width="82"/>
         <Label x:Name="label2" Content="Spacing" HorizontalAlignment="Left" Margin="15,53,0,0" VerticalAlignment="Top" Width="57"/>
         <Slider x:Name="spacingSlider" HorizontalAlignment="Left" Margin="104,61,0,0" VerticalAlignment="Top" Width="82" Value="100" Minimum="0" Maximum="512"/>
-        <CheckBox x:Name="randomSpacingCheckBox" Content="Random" HorizontalAlignment="Left" Margin="198,61,0,0" VerticalAlignment="Top"/>
-
+        <Button x:Name="randomSpacingButton" Content="Random" HorizontalAlignment="Left" VerticalAlignment="Top" Width="59" Click="randomSpacingButton_Click" Margin="186,59,0,0"/>
     </Grid>
 </Window>

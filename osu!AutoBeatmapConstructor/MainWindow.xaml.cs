@@ -139,5 +139,10 @@ namespace osu_AutoBeatmapConstructor
                 generator.addPattern(dialog.pattern);
             }
         }
+
+        private void randomPatternsButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
