@@ -1,0 +1,20 @@
+﻿<Window x:Class="osu_AutoBeatmapConstructor.AddRandomJumpsDialogue"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:osu_AutoBeatmapConstructor"
+        mc:Ignorable="d"
+        Title="AddRandomJumpsDialogue" Height="145" Width="300">
+    <Grid>
+        <Button x:Name="OKbutton" Content="OK" HorizontalAlignment="Left" Margin="230,84,0,0" VerticalAlignment="Top" Width="46" Height="21" Click="OKbutton_Click" IsDefault="True"/>
+        <Button x:Name="CancelButton" Content="Cancel" HorizontalAlignment="Left" Margin="179,84,0,0" VerticalAlignment="Top" Width="46" Height="21" Click="CancelButton_Click" IsCancel="True"/>
+        <Label x:Name="label" Content="Number of notes:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="numberOfNotesTextbox" HorizontalAlignment="Left" Height="20" Margin="122,16,0,0" TextWrapping="Wrap" Text="10" VerticalAlignment="Top" Width="82"/>
+        <CheckBox x:Name="tillEndCheckbox" Content="Till the end" HorizontalAlignment="Left" Margin="122,41,0,0" VerticalAlignment="Top" Checked="tillEndCheckbox_checked" Unchecked="tillEndCheckbox_Unchecked" Width="82"/>
+        <Label x:Name="label2" Content="Spacing" HorizontalAlignment="Left" Margin="15,53,0,0" VerticalAlignment="Top" Width="57"/>
+        <Slider x:Name="spacingSlider" HorizontalAlignment="Left" Margin="104,61,0,0" VerticalAlignment="Top" Width="82" Value="100" Minimum="0" Maximum="512"/>
+        <CheckBox x:Name="randomSpacingCheckBox" Content="Random" HorizontalAlignment="Left" Margin="198,61,0,0" VerticalAlignment="Top"/>
+
+    </Grid>
+</Window>

@@ -1,0 +1,20 @@
+﻿<Window x:Class="osu_AutoBeatmapConstructor.InitialSettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:osu_AutoBeatmapConstructor"
+        mc:Ignorable="d"
+        Title="InitialSettingsWindow" Height="200" Width="350">
+    <Grid Margin="0,0,-8,0">
+        <Label x:Name="label" Content="Set starting offset:" HorizontalAlignment="Left" Margin="11,35,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label_Copy" Content="Set ending offset:" HorizontalAlignment="Left" Margin="11,66,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="beginOffsetTextbox" HorizontalAlignment="Left" Height="19" Margin="133,42,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="77"/>
+        <TextBox x:Name="endOffsetTextbox" HorizontalAlignment="Left" Height="19" Margin="133,73,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="77"/>
+        <CheckBox x:Name="firstTimingCheckbox" Content="First Timing" HorizontalAlignment="Left" Margin="232,42,-22,0" VerticalAlignment="Top" Height="19" IsChecked="True" Checked="firstTimingChecked" Unchecked="firstTimingUnchecked"/>
+        <CheckBox x:Name="lastObjectCheckbox" Content="Last Object" HorizontalAlignment="Left" Margin="232,73,-19,0" VerticalAlignment="Top" Height="19" Checked="lastObjectChecked" Unchecked="lastObjectUnchecked"/>
+        <CheckBox x:Name="keepOriginalPartCheckbox" Content="Keep the rest of the original map" HorizontalAlignment="Left" Margin="11,107,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="OKbutton" Content="OK" HorizontalAlignment="Left" Margin="265,139,0,0" VerticalAlignment="Top" Width="75" Click="OKbutton_Click"/>
+
+    </Grid>
+</Window>

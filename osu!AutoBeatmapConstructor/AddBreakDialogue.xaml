@@ -1,0 +1,16 @@
+﻿<Window x:Class="osu_AutoBeatmapConstructor.AddBreakDialogue"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:osu_AutoBeatmapConstructor"
+        mc:Ignorable="d"
+        Title="AddBreakDialogue" Height="120" Width="240">
+    <Grid>
+        <Button x:Name="OKbutton" Content="OK" HorizontalAlignment="Left" Margin="165,50,0,0" VerticalAlignment="Top" Width="46" Height="21" Click="OKbutton_Click" IsDefault="True"/>
+        <Button x:Name="CancelButton" Content="Cancel" HorizontalAlignment="Left" Margin="114,50,0,0" VerticalAlignment="Top" Width="46" Height="21" Click="CancelButton_Click" IsCancel="True"/>
+        <Label x:Name="label" Content="Number of seconds:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="numberOfNotesTextbox" HorizontalAlignment="Left" Height="20" Margin="131,16,0,0" TextWrapping="Wrap" Text="10" VerticalAlignment="Top" Width="82"/>
+
+    </Grid>
+</Window>
