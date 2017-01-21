@@ -10,7 +10,7 @@
         <Button x:Name="OKbutton" Content="OK" HorizontalAlignment="Left" Margin="165,50,0,0" VerticalAlignment="Top" Width="46" Height="21" Click="OKbutton_Click" IsDefault="True"/>
         <Button x:Name="CancelButton" Content="Cancel" HorizontalAlignment="Left" Margin="114,50,0,0" VerticalAlignment="Top" Width="46" Height="21" Click="CancelButton_Click" IsCancel="True"/>
         <Label x:Name="label" Content="Number of seconds:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="numberOfNotesTextbox" HorizontalAlignment="Left" Height="20" Margin="131,16,0,0" TextWrapping="Wrap" Text="10" VerticalAlignment="Top" Width="82"/>
+        <TextBox x:Name="numberOfSecondsTextbox" HorizontalAlignment="Left" Height="20" Margin="131,16,0,0" TextWrapping="Wrap" Text="10" VerticalAlignment="Top" Width="82"/>
 
     </Grid>
 </Window>

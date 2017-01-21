@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BMAPI.v1.Events;
 
 namespace osu_AutoBeatmapConstructor
 {
@@ -87,6 +88,15 @@ namespace osu_AutoBeatmapConstructor
             }
 
             return result;
+        }
+
+        public BreakEvent generateBreak(int seconds)
+        {
+            BreakEvent b = new BreakEvent();
+            b.StartTime = (float)mapContext.beginOffset;
+            b.EndTime = b.StartTime + seconds * 1000;
+            mapContext.offset += seconds * 1000;
+            return b;
         }
 
         public List<CircleObject> generateRandomJumps(int numberOfNotes, int spacing)

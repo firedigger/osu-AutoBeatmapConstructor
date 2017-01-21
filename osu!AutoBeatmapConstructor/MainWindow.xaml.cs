@@ -26,12 +26,12 @@ namespace osu_AutoBeatmapConstructor
     {
         private string mapPath;
         private Beatmap baseBeatmap;
-        public ObservableCollection<ConfiguredPattern> Patterns { get; set; }
+        public ObservableCollection<string> Patterns { get; set; }
         public BeatmapGenerator generator;
 
         public MainWindow()
         {
-            Patterns = new ObservableCollection<ConfiguredPattern>();
+            Patterns = new ObservableCollection<string>();
             DataContext = this;
             InitializeComponent();
         }
@@ -57,19 +57,6 @@ namespace osu_AutoBeatmapConstructor
                 extractMapContextFromWindow(initialSettingsDialogue);
             }
         }
-
-        private List<CircleObject> combinePatterns()
-        {
-            var result = new List<CircleObject>();
-
-            foreach(var pattern in this.Patterns)
-            {
-                result.AddRange(pattern.objects);
-            }
-
-            return result;
-        }
-
 
         private void generateBeatmapButton_Click(object sender, RoutedEventArgs e)
         {
@@ -113,8 +100,8 @@ namespace osu_AutoBeatmapConstructor
             dialog.ShowDialog();
             if (dialog.DialogResult.HasValue && dialog.DialogResult.Value)
             {
-                Patterns.Add(dialog.pattern);
-                generator.addPattern(dialog.pattern);
+                Patterns.Add(dialog.pattern.description);
+                generator.addPattern(dialog.pattern.objects);
             }
         }
 
@@ -124,8 +111,8 @@ namespace osu_AutoBeatmapConstructor
             dialog.ShowDialog();
             if (dialog.DialogResult.HasValue && dialog.DialogResult.Value)
             {
-                Patterns.Add(dialog.pattern);
-                generator.addPattern(dialog.pattern);
+                Patterns.Add(dialog.pattern.description);
+                generator.addPattern(dialog.pattern.objects);
             }
         }
 
@@ -135,14 +122,35 @@ namespace osu_AutoBeatmapConstructor
             dialog.ShowDialog();
             if (dialog.DialogResult.HasValue && dialog.DialogResult.Value)
             {
-                Patterns.Add(dialog.pattern);
-                generator.addPattern(dialog.pattern);
+                Patterns.Add(dialog.pattern.description);
+                generator.addPattern(dialog.pattern.objects);
             }
         }
 
         private void randomPatternsButton_Click(object sender, RoutedEventArgs e)
         {
+            while(generator.mapContext.offset < generator.mapContext.endOffset)
+            {
+                int number = 10;
+                int points = 10;
+                int spacing = 10;
+                int rotation = 10;
+                int shift = 10;
+                bool randomize = true;
+                var pattern = generator.patternGenerator.generatePolygons(points,number,spacing,rotation,shift,randomize);
+                generator.addPattern(pattern);
+            }
+        }
 
+        private void addBreak_Click(object sender, RoutedEventArgs e)
+        {
+            AddBreakDialogue dialog = new AddBreakDialogue();
+            dialog.ShowDialog();
+            if (dialog.DialogResult.HasValue && dialog.DialogResult.Value)
+            {
+                Patterns.Add(dialog.breakEventDescription);
+                generator.addBreak(dialog.breakEvent);
+            }
         }
     }
 }

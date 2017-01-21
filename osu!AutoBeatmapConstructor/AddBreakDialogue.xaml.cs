@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BMAPI.v1.Events;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,6 +20,9 @@ namespace osu_AutoBeatmapConstructor
     /// </summary>
     public partial class AddBreakDialogue : Window
     {
+        public string breakEventDescription;
+        public BreakEvent breakEvent;
+
         public AddBreakDialogue()
         {
             InitializeComponent();
@@ -31,7 +35,16 @@ namespace osu_AutoBeatmapConstructor
 
         private void OKbutton_Click(object sender, RoutedEventArgs e)
         {
+            MapContextAwareness context = ((MainWindow)Application.Current.MainWindow).generator.mapContext;
+            PatternsGenerator generator = ((MainWindow)Application.Current.MainWindow).generator.patternGenerator;
 
+            int seconds = int.Parse(numberOfSecondsTextbox.Text);
+
+            breakEventDescription = seconds + " seconds break";
+
+            this.breakEvent = generator.generateBreak(seconds);
+
+            Close();
         }
     }
 }

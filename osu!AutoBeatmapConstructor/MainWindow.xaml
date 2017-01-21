@@ -18,7 +18,7 @@
         <TextBox x:Name="difficultyNameTextbox" HorizontalAlignment="Left" Height="20" Margin="371,178,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="Generated test"/>
         <Label x:Name="label1" Content="Difficulty name" HorizontalAlignment="Left" Margin="281,173,0,0" VerticalAlignment="Top" Height="40"/>
         <Label x:Name="songTitle" Content="Artist - Title" HorizontalAlignment="Left" Margin="10,244,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="addBreak" Content="Add a break" HorizontalAlignment="Left" Margin="176,152,0,0" VerticalAlignment="Top" Width="89"/>
+        <Button x:Name="addBreak" Content="Add a break" HorizontalAlignment="Left" Margin="176,152,0,0" VerticalAlignment="Top" Width="89" Click="addBreak_Click"/>
         <Button x:Name="randomPatternsButton" Content="Random training map" HorizontalAlignment="Left" Margin="296,99,0,0" VerticalAlignment="Top" Width="128" Click="randomPatternsButton_Click"/>
 
     </Grid>
