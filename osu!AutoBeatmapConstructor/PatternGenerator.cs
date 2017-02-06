@@ -58,7 +58,7 @@ namespace osu_AutoBeatmapConstructor
             Circle circle = new Circle(from, to, mid);
 
             Point2 center = circle.center;
-            double radius = circle.raduis;
+            double radius = circle.radius;
 
             double angle1 = calcAngle(from, center);
             double angle2 = calcAngle(to, center);
@@ -68,7 +68,7 @@ namespace osu_AutoBeatmapConstructor
 
         public static bool checkCoordinateLimits(Point2 to)
         {
-            return to.X >= 0 && to.X <= 512 && to.Y >= 0 && to.Y <= 384;
+            return to.X >= Utils.Xmin && to.X <= Utils.Xmax && to.Y >= Utils.Ymin && to.Y <= Utils.Ymax;
         }
 
         public static List<CircleObject> stream(int points, Point2 from, Point2 to)
@@ -133,10 +133,14 @@ namespace osu_AutoBeatmapConstructor
         {
             double angle = rng.NextDouble() * Math.PI * 2;
             Point2 to = new Point2(x + (float)(Math.Cos(angle) * nextShift), y + (float)(Math.Sin(angle) * nextShift));
-            while(!checkCoordinateLimits(to))
+            int k = 0;
+            for(angle = 0; !checkCoordinateLimits(to); angle += 0.3, ++k)
             {
-                angle = rng.NextDouble() * Math.PI * 2;
                 to = new Point2(x + (float)(Math.Cos(angle) * nextShift), y + (float)(Math.Sin(angle) * nextShift));
+
+                if (k > 100)
+                    throw new Exception("Couldn't find next position: " + x + " " + y + " " + nextShift);
+
             }
 
             return to;

@@ -9,7 +9,7 @@ namespace osu_AutoBeatmapConstructor
 {
     public class Circle
     {
-        public float raduis;
+        public float radius;
         public Point2 center;
 
         private void FindCircle(Point2 a, Point2 b, Point2 c,
@@ -117,7 +117,7 @@ namespace osu_AutoBeatmapConstructor
 
         public Circle(Point2 A, Point2 B, Point2 C)
         {
-            FindCircle(A,B,C,out center,out raduis);
+            FindCircle(A,B,C,out center,out radius);
         }
     }
 }

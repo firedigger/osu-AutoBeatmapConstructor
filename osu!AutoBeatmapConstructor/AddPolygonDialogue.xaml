@@ -21,11 +21,11 @@
         <TextBox x:Name="numberOfPatternsTextbox" HorizontalAlignment="Left" Height="20" Margin="149,66,0,0" TextWrapping="Wrap" Text="10" VerticalAlignment="Top" Width="82"/>
         <CheckBox x:Name="tillEndCheckbox" Content="Till the end" HorizontalAlignment="Left" Margin="149,91,0,0" VerticalAlignment="Top" Checked="checkBox_Checked" Unchecked="tillEndCheckbox_Unchecked" Width="82"/>
         <Label x:Name="label2" Content="Spacing" HorizontalAlignment="Left" Margin="15,126,0,0" VerticalAlignment="Top" Width="57"/>
-        <Slider x:Name="spacingSlider" HorizontalAlignment="Left" Margin="104,134,0,0" VerticalAlignment="Top" Width="82" Value="100" Minimum="0" Maximum="512"/>
+        <Slider x:Name="spacingSlider" HorizontalAlignment="Left" Margin="104,134,0,0" VerticalAlignment="Top" Width="82" Value="100" Minimum="0" Maximum="175"/>
         <Label x:Name="label2_Copy" Content="Rotation" HorizontalAlignment="Left" Margin="15,164,0,0" VerticalAlignment="Top" Width="57"/>
         <Slider x:Name="rotationSlider" HorizontalAlignment="Left" Margin="104,172,0,0" VerticalAlignment="Top" Width="82" Value="15" Minimum="0" Maximum="180"/>
         <Label x:Name="label3" Content="Shift" HorizontalAlignment="Left" Margin="15,206,0,0" VerticalAlignment="Top"/>
-        <Slider x:Name="shiftSlider" HorizontalAlignment="Left" Margin="104,214,0,0" VerticalAlignment="Top" Width="82" Value="15" Minimum="0" Maximum="300"/>
+        <Slider x:Name="shiftSlider" HorizontalAlignment="Left" Margin="104,214,0,0" VerticalAlignment="Top" Width="82" Value="15" Minimum="0" Maximum="40"/>
         <CheckBox x:Name="randomizeNoteOrderCheckbox" Content="Randomize note order" HorizontalAlignment="Left" Margin="122,41,0,0" VerticalAlignment="Top"/>
         <Button x:Name="randomSpacingButton" Content="Random" HorizontalAlignment="Left" Margin="202,132,0,0" VerticalAlignment="Top" Width="59" Click="randomSpacingButton_Click"/>
         <Button x:Name="randomRotationgButton" Content="Random" HorizontalAlignment="Left" Margin="202,172,0,0" VerticalAlignment="Top" Width="59" Click="randomRotationgButton_Click"/>

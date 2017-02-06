@@ -8,6 +8,16 @@ namespace osu_AutoBeatmapConstructor
 {
     static class Utils
     {
+        public static int Xmax = 512;
+        public static int Xmin = 0;
+        public static int Ymax = 384;
+        public static int Ymin = 0;
+
+        public static double Max(params double[] numbers)
+        {
+            return numbers.Max();
+        }
+
         /// <summary>
         /// Partitions the given list around a pivot element such that all elements on left of pivot are <= pivot
         /// and the ones at thr right are > pivot. This method can be used for sorting, N-order statistics such as

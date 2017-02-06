@@ -26,6 +26,7 @@ namespace osu_AutoBeatmapConstructor
 
         private void OKbutton_Click(object sender, RoutedEventArgs e)
         {
+            DialogResult = true;
             Close();
         }
 

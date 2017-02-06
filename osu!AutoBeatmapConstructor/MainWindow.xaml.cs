@@ -36,6 +36,11 @@ namespace osu_AutoBeatmapConstructor
             InitializeComponent();
         }
 
+        private bool mapSelected()
+        {
+            return generator != null;
+        }
+
         private void exitButton_Click(object sender, RoutedEventArgs e)
         {
             Close();
@@ -53,13 +58,25 @@ namespace osu_AutoBeatmapConstructor
                 songTitle.Content = baseBeatmap.Artist + " - " + baseBeatmap.Title;
                 generator = new BeatmapGenerator(baseBeatmap);
                 InitialSettingsWindow initialSettingsDialogue = new InitialSettingsWindow();
-                initialSettingsDialogue.ShowDialog();
-                extractMapContextFromWindow(initialSettingsDialogue);
+                if (initialSettingsDialogue.ShowDialog() ?? true)
+                    extractMapContextFromWindow(initialSettingsDialogue);
             }
         }
 
         private void generateBeatmapButton_Click(object sender, RoutedEventArgs e)
         {
+            if (!mapSelected())
+            {
+                MessageBox.Show("You must select .osu file first!");
+                return;
+            }
+
+            if (difficultyNameTextbox.Text.Length == 0)
+            {
+                MessageBox.Show("Please enter the difficulty name!");
+                return;
+            }
+
             Beatmap generatedMap = generator.generateBeatmap();
             generatedMap.Version = difficultyNameTextbox.Text;
             generatedMap.regenerateFilename();
@@ -74,13 +91,31 @@ namespace osu_AutoBeatmapConstructor
             if (window.firstTimingCheckbox.IsChecked.Value)
                 generator.mapContext.beginOffset = current.Time;
             else
-                generator.mapContext.beginOffset = double.Parse(window.beginOffsetTextbox.Text);
+            {
+                double tmp;
+                if (double.TryParse(window.beginOffsetTextbox.Text, out tmp))
+                    generator.mapContext.beginOffset = tmp;
+                else
+                {
+                    MessageBox.Show("Unable to parse the begin offset. Please input a valid number or check the First timing point checkbox");
+                    return;
+                }
+            }
             generator.mapContext.offset = generator.mapContext.beginOffset;
 
             if (window.lastObjectCheckbox.IsChecked.Value)
                 generator.mapContext.endOffset = findLastObjectTimingInMap(baseBeatmap);
             else
-                generator.mapContext.endOffset = double.Parse(window.endOffsetTextbox.Text);
+            {
+                double tmp;
+                if (double.TryParse(window.beginOffsetTextbox.Text, out tmp))
+                    generator.mapContext.endOffset = tmp;
+                else
+                {
+                    MessageBox.Show("Unable to parse the begin offset. Please input a valid number or check the Last object checkbox");
+                    return;
+                }
+            }
             
             if (window.keepOriginalPartCheckbox.IsChecked.Value)
             {
@@ -96,6 +131,12 @@ namespace osu_AutoBeatmapConstructor
 
         private void addPolygonsButton_Click(object sender, RoutedEventArgs e)
         {
+            if (!mapSelected())
+            {
+                MessageBox.Show("You must select .osu file first!");
+                return;
+            }
+
             AddPolygonDialogue dialog = new AddPolygonDialogue();
             dialog.ShowDialog();
             if (dialog.DialogResult.HasValue && dialog.DialogResult.Value)
@@ -107,6 +148,12 @@ namespace osu_AutoBeatmapConstructor
 
         private void addStreamsButton_Click(object sender, RoutedEventArgs e)
         {
+            if (!mapSelected())
+            {
+                MessageBox.Show("You must select .osu file first!");
+                return;
+            }
+
             AddStreamDialogue dialog = new AddStreamDialogue();
             dialog.ShowDialog();
             if (dialog.DialogResult.HasValue && dialog.DialogResult.Value)
@@ -118,6 +165,12 @@ namespace osu_AutoBeatmapConstructor
 
         private void addJumpsButton_Click(object sender, RoutedEventArgs e)
         {
+            if (!mapSelected())
+            {
+                MessageBox.Show("You must select .osu file first!");
+                return;
+            }
+
             AddRandomJumpsDialogue dialog = new AddRandomJumpsDialogue();
             dialog.ShowDialog();
             if (dialog.DialogResult.HasValue && dialog.DialogResult.Value)
@@ -129,7 +182,13 @@ namespace osu_AutoBeatmapConstructor
 
         private void randomPatternsButton_Click(object sender, RoutedEventArgs e)
         {
-            while(generator.mapContext.offset < generator.mapContext.endOffset)
+            if (!mapSelected())
+            {
+                MessageBox.Show("You must select .osu file first!");
+                return;
+            }
+
+            while (generator.mapContext.offset < generator.mapContext.endOffset)
             {
                 int number = 10;
                 int points = 10;
@@ -144,6 +203,12 @@ namespace osu_AutoBeatmapConstructor
 
         private void addBreak_Click(object sender, RoutedEventArgs e)
         {
+            if (!mapSelected())
+            {
+                MessageBox.Show("You must select .osu file first!");
+                return;
+            }
+
             AddBreakDialogue dialog = new AddBreakDialogue();
             dialog.ShowDialog();
             if (dialog.DialogResult.HasValue && dialog.DialogResult.Value)

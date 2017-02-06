@@ -127,6 +127,51 @@ namespace osu_AutoBeatmapConstructor
             return result;
         }
 
+        private Point2 checkPolygonialBounds(int X, int Y, int spacing)
+        {
+            double upperBoundOverhead = Utils.Ymin - (Y - spacing);
+            double downBoundOverhead = (Y + spacing) - Utils.Ymax;
+
+            double leftBoundOverhead = Utils.Xmin - (X - spacing);
+            double rightBoundOverhead = (X + spacing) - Utils.Xmax;
+
+            if (upperBoundOverhead <= 0 && downBoundOverhead <= 0 && leftBoundOverhead <= 0 && rightBoundOverhead <= 0)
+            {
+                return null;
+            }
+
+            double shiftX = 0;
+            double shiftY = 0;
+
+            if (leftBoundOverhead > 0 && rightBoundOverhead > 0)
+                throw new Exception("leftBoundOverhead and rightBoundOverhead are both positive => probably the spacing is too large");
+
+            if (upperBoundOverhead > 0 && downBoundOverhead > 0)
+                throw new Exception("upperBoundOverhead and downBoundOverhead are both positive => probably the spacing is too large");
+
+            if (leftBoundOverhead > 0)
+            {
+                shiftX = leftBoundOverhead;
+            }
+            if (rightBoundOverhead > 0)
+            {
+                shiftX = - rightBoundOverhead;
+            }
+
+            if (upperBoundOverhead > 0)
+            {
+                shiftY = upperBoundOverhead;
+            }
+            if (downBoundOverhead > 0)
+            {
+                shiftY = - downBoundOverhead;
+            }
+
+            Point2 point = new Point2((float)shiftX + X, (float)shiftY + Y);
+
+            return point;
+        }
+
         public List<CircleObject> generatePolygons(int points, int number, int spacing, int rotation, int shift, bool randomize)
         {
             var result = new List<CircleObject>();
@@ -140,6 +185,14 @@ namespace osu_AutoBeatmapConstructor
 
             for (int i = 0; i < number; ++i)
             {
+                Point2 pp = checkPolygonialBounds(X, Y, spacing);
+
+                if (!ReferenceEquals(pp, null))
+                {
+                    X = (int)pp.X;
+                    Y = (int)pp.Y;
+                }
+
                 var ps = PatternGenerator.polygon(points, new Point2(X, Y), spacing, angle);
 
                 if (randomize)
