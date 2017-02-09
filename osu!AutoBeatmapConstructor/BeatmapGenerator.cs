@@ -48,6 +48,7 @@ namespace osu_AutoBeatmapConstructor
                     b.StartTime = (int)mapContext.offset;
                     generatedMap.HitObjects.AddRange(pattern.generatePattern(mapContext));
                     b.EndTime = (int)mapContext.offset;
+                    addBreak(b);
                 }
                 else
                 {

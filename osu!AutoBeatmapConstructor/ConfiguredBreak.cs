@@ -18,7 +18,7 @@ namespace osu_AutoBeatmapConstructor
 
         public override List<CircleObject> generatePattern(MapContextAwareness mapContext)
         {
-            int periods = (int)(seconds / mapContext.bpm);
+            int periods = (int)(1000.0 * seconds / mapContext.bpm);
             mapContext.offset += mapContext.bpm * periods;
 
             return new List<CircleObject>();
