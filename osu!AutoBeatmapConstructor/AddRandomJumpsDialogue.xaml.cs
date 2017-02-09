@@ -20,9 +20,7 @@ namespace osu_AutoBeatmapConstructor
     /// </summary>
     public partial class AddRandomJumpsDialogue : Window
     {
-        public ConfiguredPattern pattern = null;
-
-        private int numberOfNotes;
+        public ConfiguredRandomJumps pattern = null;
 
         public AddRandomJumpsDialogue()
         {
@@ -31,50 +29,26 @@ namespace osu_AutoBeatmapConstructor
 
         private void OKbutton_Click(object sender, RoutedEventArgs e)
         {
-            string description;
-            var notes = generatePattern();
-
-            if (tillEndCheckbox.IsChecked.Value)
+            try
             {
-                description = "Jumps till end";
+                int number = 0;
+                bool end = false;
+                if (tillEndCheckbox.IsChecked ?? true)
+                    end = true;
+                else
+                    number = int.Parse(numberOfNotesTextbox.Text);
+
+                int spacing = (int)spacingSlider.Value;
+
+                pattern = new ConfiguredRandomJumps(number, spacing, end);
+
+                DialogResult = true;
+                Close();
             }
-            else
+            catch (Exception ex)
             {
-                description = numberOfNotes + "-notes jumps";
+                MessageBox.Show(ex.ToString());
             }
-
-            pattern = new ConfiguredPattern(notes, description);
-            pattern.end = tillEndCheckbox.IsChecked.Value;
-            DialogResult = true;
-            Close();
-        }
-
-        private List<CircleObject> generatePattern()
-        {
-            MapContextAwareness context = ((MainWindow)Application.Current.MainWindow).generator.mapContext;
-            PatternsGenerator generator = ((MainWindow)Application.Current.MainWindow).generator.patternGenerator;
-
-            var notes = new List<CircleObject>();
-
-            if (tillEndCheckbox.IsChecked.Value)
-            {
-                double endOffset = context.endOffset;
-                double currOffset = context.offset;
-
-                int n = (int)Math.Floor((endOffset - currOffset) / context.bpm) - 1;
-
-                numberOfNotes = n;
-
-            }
-            else
-            {
-                numberOfNotes = int.Parse(numberOfNotesTextbox.Text);
-            }
-            int spacing = (int)spacingSlider.Value;
-
-            notes.AddRange(generator.generateRandomJumps(numberOfNotes, spacing));
-
-            return notes;
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)

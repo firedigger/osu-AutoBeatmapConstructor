@@ -34,7 +34,6 @@ namespace osu_AutoBeatmapConstructor
             return Math.Sqrt(v.X * v.X + v.Y * v.Y);
         }
 
-
         public static double calcAngle(Point2 p, Point2 center)
         {
             double dx = p.X - center.X;
@@ -93,31 +92,6 @@ namespace osu_AutoBeatmapConstructor
             return x >= 0 && x <= 512 && y >= 0 && y <= 384;
         }
 
-        public static List<CircleObject> streamSquare(Point2 center, int size, int rowSize)
-        {
-            List<CircleObject> result = new List<CircleObject>();
-
-            var list1 = stream(rowSize, new Point2(center.X - size / 2, center.Y - size / 2), new Point2(center.X + size / 2, center.Y - size / 2));
-            list1.RemoveAt(list1.Count - 1);
-            list1[0].Type |= BMAPI.v1.HitObjectType.NewCombo;
-            var list2 = stream(rowSize, new Point2(center.X + size / 2, center.Y - size / 2), new Point2(center.X + size / 2, center.Y + size / 2));
-            list2.RemoveAt(list2.Count - 1);
-            list2[0].Type |= BMAPI.v1.HitObjectType.NewCombo;
-            var list3 = stream(rowSize, new Point2(center.X + size / 2, center.Y + size / 2), new Point2(center.X - size / 2, center.Y + size / 2));
-            list3.RemoveAt(list3.Count - 1);
-            list3[0].Type |= BMAPI.v1.HitObjectType.NewCombo;
-            var list4 = stream(rowSize, new Point2(center.X - size / 2, center.Y + size / 2), new Point2(center.X - size / 2, center.Y - size / 2));
-            list4.RemoveAt(list4.Count - 1);
-            list4[0].Type |= BMAPI.v1.HitObjectType.NewCombo;
-
-            result.AddRange(list1);
-            result.AddRange(list2);
-            result.AddRange(list3);
-            result.AddRange(list4);
-
-            return result;
-        }
-
         public static void copyMap(Beatmap baseBeatmap, Beatmap generatedMap, double offset, double endOffset)
         {
             foreach(var obj in baseBeatmap.HitObjects)
@@ -151,8 +125,6 @@ namespace osu_AutoBeatmapConstructor
             return (Math.PI / 180) * angle;
         }
 
-        
-
         public static bool checkCoordinateLimits(int x, int y, int points, int spacing, int shiftx, int shifty)
         {
             return x - spacing + shiftx >= 0 && x +spacing + shiftx <= 512 && y - spacing + shifty >= 0 && y + spacing + shifty <= 384;
@@ -168,8 +140,6 @@ namespace osu_AutoBeatmapConstructor
             for (int i = 0; i < points; ++i)
             {
                 CircleObject o1 = new CircleObject();
-                if (i == 0)
-                    o1.Type |= BMAPI.v1.HitObjectType.NewCombo;
                 o1.Location = new Point2(center.X + size * (float)Math.Cos(offset), center.Y - size * (float)Math.Sin(offset));
                 result.Add(o1);
                 offset -= dangle;
@@ -205,7 +175,7 @@ namespace osu_AutoBeatmapConstructor
             return result;
         }
 
-
+        //TODO replace for general polygon to_star algorithm
         public static List<CircleObject> polygonToStar(List<CircleObject> polygon)
         {
             if (polygon.Count != 5)
@@ -220,36 +190,53 @@ namespace osu_AutoBeatmapConstructor
             return result;
         }
 
-
-        public static List<CircleObject> square(Point2 center, int size, double angle)
+        public static List<CircleObject> generateHorizontalJump(Point2 start, int spacing, double angle, bool randomize)
         {
             var result = new List<CircleObject>();
 
-            float dya = - size * (float)Math.Cos(angle) / 2;
-            float dy = size * (float)Math.Cos(Math.PI / 2 - angle) / 2;
-
-            float dxa = size * (float)Math.Sin(angle) / 2;
-            float dx = size * (float)Math.Sin(Math.PI / 2 - angle) / 2;
-
             CircleObject o1 = new CircleObject();
-            //o1.Type |= BMAPI.v1.HitObjectType.NewCombo;
-            o1.Location = new Point2(center.X + dxa - dx, center.Y + dya - dy);
+            o1.Location = start;
+            result.Add(o1);
 
             CircleObject o2 = new CircleObject();
-            o2.Location = new Point2(center.X + dxa + dx, center.Y + dya + dy);
-
-            CircleObject o3 = new CircleObject();
-            o3.Location = new Point2(center.X - dxa + dx, center.Y - dya + dy);
-
-            CircleObject o4 = new CircleObject();
-            o4.Location = new Point2(center.X - dxa - dx, center.Y - dya - dy);
-
-            result.Add(o1);
+            o2.Location = new Point2(start);
+            o2.Location.X += spacing;
             result.Add(o2);
-            result.Add(o3);
-            result.Add(o4);
+
+            Point2 center = new Point2(o1.Location);
+            center.X = (o1.Location.X + o2.Location.X) / 2;
+
+
+            rotate(result, center, angle);
 
             return result;
         }
+
+        public static List<CircleObject> generateVerticalJump(Point2 start, int spacing, double angle, bool randomize)
+        {
+            var result = new List<CircleObject>();
+
+            CircleObject o1 = new CircleObject();
+            o1.Location = start;
+            result.Add(o1);
+
+            CircleObject o2 = new CircleObject();
+            o2.Location = new Point2(start);
+            o2.Location.Y += spacing;
+            result.Add(o2);
+
+            Point2 center = new Point2(o1.Location);
+            center.Y = (o1.Location.Y + o2.Location.Y) / 2;
+
+            rotate(result, center, angle);
+
+            return result;
+        }
+
+        public static List<CircleObject> generateRotationalJump(Point2 start, int spacing, double angle, bool randomize)
+        {
+            return generateHorizontalJump(start, spacing, angle, randomize);
+        }
+
     }
 }

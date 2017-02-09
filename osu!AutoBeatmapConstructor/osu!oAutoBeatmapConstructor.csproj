@@ -55,8 +55,22 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AddDoubleJumpsDialogue.xaml.cs">
+      <DependentUpon>AddDoubleJumpsDialogue.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ConfiguredBreak.cs" />
+    <Compile Include="ConfiguredDoubleJumps.cs" />
+    <Compile Include="ConfiguredPolygons.cs" />
+    <Compile Include="ConfiguredRandomJumps.cs" />
+    <Compile Include="ConfiguredStreams.cs" />
+    <Compile Include="DoubleJumpType.cs" />
+    <Compile Include="PatternType.cs" />
     <Compile Include="Utils.cs" />
     <Page Include="AddBreakDialogue.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AddDoubleJumpsDialogue.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -129,7 +143,6 @@
   <ItemGroup>
     <Compile Include="MapContextAwareness.cs" />
     <Compile Include="PatternGenerator.cs" />
-    <Compile Include="PatternsGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

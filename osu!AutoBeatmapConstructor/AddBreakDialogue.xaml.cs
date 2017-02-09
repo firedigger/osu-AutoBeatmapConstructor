@@ -20,8 +20,7 @@ namespace osu_AutoBeatmapConstructor
     /// </summary>
     public partial class AddBreakDialogue : Window
     {
-        public string breakEventDescription;
-        public BreakEvent breakEvent;
+        public ConfiguredBreak pattern = null;
 
         public AddBreakDialogue()
         {
@@ -35,16 +34,19 @@ namespace osu_AutoBeatmapConstructor
 
         private void OKbutton_Click(object sender, RoutedEventArgs e)
         {
-            MapContextAwareness context = ((MainWindow)Application.Current.MainWindow).generator.mapContext;
-            PatternsGenerator generator = ((MainWindow)Application.Current.MainWindow).generator.patternGenerator;
+            try
+            {
+                int seconds = int.Parse(numberOfSecondsTextbox.Text);
 
-            int seconds = int.Parse(numberOfSecondsTextbox.Text);
+                pattern = new ConfiguredBreak(seconds);
 
-            breakEventDescription = seconds + " seconds break";
-
-            this.breakEvent = generator.generateBreak(seconds);
-
-            Close();
+                DialogResult = true;
+                Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
     }
 }

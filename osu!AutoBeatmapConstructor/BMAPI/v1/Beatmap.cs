@@ -196,8 +196,8 @@ namespace BMAPI.v1
 
             ComboColours = baseMap.ComboColours;
 
-        //writeInfo
-        BM_Sections = baseMap.BM_Sections;
+            //writeInfo
+            BM_Sections = baseMap.BM_Sections;
             WriteBuffer = baseMap.WriteBuffer;
             SectionLength = baseMap.SectionLength;
 

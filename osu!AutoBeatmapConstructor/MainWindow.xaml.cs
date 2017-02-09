@@ -26,12 +26,12 @@ namespace osu_AutoBeatmapConstructor
     {
         private string mapPath;
         private Beatmap baseBeatmap;
-        public ObservableCollection<string> Patterns { get; set; }
+        public ObservableCollection<ConfiguredPattern> Patterns { get; set; }
         public BeatmapGenerator generator;
 
         public MainWindow()
         {
-            Patterns = new ObservableCollection<string>();
+            Patterns = new ObservableCollection<ConfiguredPattern>();
             DataContext = this;
             InitializeComponent();
         }
@@ -77,6 +77,7 @@ namespace osu_AutoBeatmapConstructor
                 return;
             }
 
+            generator.addPatterns(Patterns);
             Beatmap generatedMap = generator.generateBeatmap();
             generatedMap.Version = difficultyNameTextbox.Text;
             generatedMap.regenerateFilename();
@@ -141,8 +142,7 @@ namespace osu_AutoBeatmapConstructor
             dialog.ShowDialog();
             if (dialog.DialogResult.HasValue && dialog.DialogResult.Value)
             {
-                Patterns.Add(dialog.pattern.description);
-                generator.addPattern(dialog.pattern.objects);
+                Patterns.Add(dialog.pattern);
             }
         }
 
@@ -158,8 +158,7 @@ namespace osu_AutoBeatmapConstructor
             dialog.ShowDialog();
             if (dialog.DialogResult.HasValue && dialog.DialogResult.Value)
             {
-                Patterns.Add(dialog.pattern.description);
-                generator.addPattern(dialog.pattern.objects);
+                Patterns.Add(dialog.pattern);
             }
         }
 
@@ -175,8 +174,7 @@ namespace osu_AutoBeatmapConstructor
             dialog.ShowDialog();
             if (dialog.DialogResult.HasValue && dialog.DialogResult.Value)
             {
-                Patterns.Add(dialog.pattern.description);
-                generator.addPattern(dialog.pattern.objects);
+                Patterns.Add(dialog.pattern);
             }
         }
 
@@ -188,7 +186,8 @@ namespace osu_AutoBeatmapConstructor
                 return;
             }
 
-            while (generator.mapContext.offset < generator.mapContext.endOffset)
+            //TODO implement
+            /*while (generator.mapContext.offset < generator.mapContext.endOffset)
             {
                 int number = 10;
                 int points = 10;
@@ -198,7 +197,7 @@ namespace osu_AutoBeatmapConstructor
                 bool randomize = true;
                 var pattern = generator.patternGenerator.generatePolygons(points,number,spacing,rotation,shift,randomize);
                 generator.addPattern(pattern);
-            }
+            }*/
         }
 
         private void addBreak_Click(object sender, RoutedEventArgs e)
@@ -213,8 +212,32 @@ namespace osu_AutoBeatmapConstructor
             dialog.ShowDialog();
             if (dialog.DialogResult.HasValue && dialog.DialogResult.Value)
             {
-                Patterns.Add(dialog.breakEventDescription);
-                generator.addBreak(dialog.breakEvent);
+                Patterns.Add(dialog.pattern);
+            }
+        }
+
+        private void deletePatternButton_Click(object sender, RoutedEventArgs e)
+        {
+            int index = configuredPatterns.SelectedIndex;
+            if (index == -1)
+                MessageBox.Show("The pattern list is empty");
+            else
+                Patterns.RemoveAt(index);
+        }
+
+        private void addDoubleJumpsButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!mapSelected())
+            {
+                MessageBox.Show("You must select .osu file first!");
+                return;
+            }
+
+            AddDoubleJumpsDialogue dialog = new AddDoubleJumpsDialogue();
+            dialog.ShowDialog();
+            if (dialog.DialogResult.HasValue && dialog.DialogResult.Value)
+            {
+                Patterns.Add(dialog.pattern);
             }
         }
     }

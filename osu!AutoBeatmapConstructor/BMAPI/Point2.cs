@@ -20,6 +20,11 @@ namespace BMAPI
         {
             X = Y = V;
         }
+        public Point2(Point2 p)
+        {
+            this.X = p.X;
+            this.Y = p.Y;
+        }
         public Point2(float X, float Y)
         {
             this.X = X;

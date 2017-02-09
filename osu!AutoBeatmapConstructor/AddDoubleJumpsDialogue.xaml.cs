@@ -1,5 +1,4 @@
-﻿using BMAPI.v1.HitObjects;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,28 +15,21 @@ using System.Windows.Shapes;
 namespace osu_AutoBeatmapConstructor
 {
     /// <summary>
-    /// Логика взаимодействия для AddPolygonDialogue.xaml
+    /// Логика взаимодействия для AddDoubleJumpsDialogue.xaml
     /// </summary>
-    public partial class AddPolygonDialogue : Window
+    public partial class AddDoubleJumpsDialogue : Window
     {
-        public ConfiguredPolygons pattern = null;
+        public ConfiguredDoubleJumps pattern = null;
 
-        public AddPolygonDialogue()
+        public AddDoubleJumpsDialogue()
         {
             InitializeComponent();
-        }
-
-        private void CancelButton_Click(object sender, RoutedEventArgs e)
-        {
-            Close();
         }
 
         private void OKbutton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                int points = int.Parse(numberOfPointsComboBox.Text);
-
                 int number = 0;
                 bool end = false;
                 if (tillEndCheckbox.IsChecked ?? true)
@@ -51,7 +43,9 @@ namespace osu_AutoBeatmapConstructor
 
                 bool randomize = randomizeNoteOrderCheckbox.IsChecked ?? true;
 
-                pattern = new ConfiguredPolygons(points, number, spacing, rotation, shift, randomize, end);
+                DoubleJumpType type = parseJumpType();
+
+                pattern = new ConfiguredDoubleJumps(type, number, spacing, rotation, shift, randomize, end);
 
                 DialogResult = true;
                 Close();
@@ -62,9 +56,23 @@ namespace osu_AutoBeatmapConstructor
             }
         }
 
+        private DoubleJumpType parseJumpType()
+        {
+            if (rotatingRadioButton.IsChecked ?? true)
+                return DoubleJumpType.Rotating;
+
+            if (horizontalRadioButton.IsChecked ?? true)
+                return DoubleJumpType.Horizontal;
+
+            if (verticalRadioButton.IsChecked ?? true)
+                return DoubleJumpType.Vertical;
+
+            throw new Exception("Unknown double jump type value");
+        }
+
         private void checkBox_Checked(object sender, RoutedEventArgs e)
         {
-            numberOfPatternsTextbox.Visibility = Visibility.Hidden;                
+            numberOfPatternsTextbox.Visibility = Visibility.Hidden;
         }
 
         private void tillEndCheckbox_Unchecked(object sender, RoutedEventArgs e)
@@ -85,6 +93,11 @@ namespace osu_AutoBeatmapConstructor
         private void randomShiftButton_Click(object sender, RoutedEventArgs e)
         {
             Utils.randomizeSlider(this.shiftSlider);
+        }
+
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }

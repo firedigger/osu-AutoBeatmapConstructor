@@ -8,6 +8,8 @@ namespace osu_AutoBeatmapConstructor
 {
     static class Utils
     {
+        public static Random rng = new Random();
+
         public static int Xmax = 512;
         public static int Xmin = 0;
         public static int Ymax = 384;

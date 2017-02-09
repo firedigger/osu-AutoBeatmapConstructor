@@ -1,0 +1,29 @@
+﻿<Window x:Class="osu_AutoBeatmapConstructor.AddDoubleJumpsDialogue"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:osu_AutoBeatmapConstructor"
+        mc:Ignorable="d"
+        Title="AddDoubleJumpsDialogue" Height="290" Width="270">
+    <Grid>
+        <Button x:Name="OKbutton" Content="OK" HorizontalAlignment="Left" Margin="212,231,0,0" VerticalAlignment="Top" Width="46" Height="21" Click="OKbutton_Click" IsDefault="True"/>
+        <Button x:Name="CancelButton" Content="Cancel" HorizontalAlignment="Left" Margin="161,231,0,0" VerticalAlignment="Top" Width="46" Height="21" Click="CancelButton_Click" IsCancel="True"/>
+        <Label x:Name="label1" Content="Number of patterns:" HorizontalAlignment="Left" Margin="5,6,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="numberOfPatternsTextbox" HorizontalAlignment="Left" Height="20" Margin="144,12,0,0" TextWrapping="Wrap" Text="10" VerticalAlignment="Top" Width="82"/>
+        <CheckBox x:Name="tillEndCheckbox" Content="Till the end" HorizontalAlignment="Left" Margin="154,37,0,0" VerticalAlignment="Top" Checked="checkBox_Checked" Unchecked="tillEndCheckbox_Unchecked" Width="82"/>
+        <Label x:Name="label2" Content="Spacing" HorizontalAlignment="Left" Margin="11,120,0,0" VerticalAlignment="Top" Width="57"/>
+        <Slider x:Name="spacingSlider" HorizontalAlignment="Left" Margin="100,128,0,0" VerticalAlignment="Top" Width="82" Value="100" Minimum="1" Maximum="300"/>
+        <Label x:Name="label2_Copy" Content="Rotation" HorizontalAlignment="Left" Margin="11,158,0,0" VerticalAlignment="Top" Width="57"/>
+        <Slider x:Name="rotationSlider" HorizontalAlignment="Left" Margin="100,166,0,0" VerticalAlignment="Top" Width="82" Value="0" Minimum="-60" Maximum="60"/>
+        <Label x:Name="label3" Content="Shift" HorizontalAlignment="Left" Margin="11,200,0,0" VerticalAlignment="Top"/>
+        <Slider x:Name="shiftSlider" HorizontalAlignment="Left" Margin="100,208,0,0" VerticalAlignment="Top" Width="82" Value="50" Minimum="0" Maximum="200"/>
+        <CheckBox x:Name="randomizeNoteOrderCheckbox" Content="Randomize note order" HorizontalAlignment="Left" Margin="10,37,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="randomSpacingButton" Content="Random" HorizontalAlignment="Left" Margin="198,126,0,0" VerticalAlignment="Top" Width="59" Click="randomSpacingButton_Click"/>
+        <Button x:Name="randomRotationgButton" Content="Random" HorizontalAlignment="Left" Margin="198,166,0,0" VerticalAlignment="Top" Width="59" Click="randomRotationgButton_Click"/>
+        <Button x:Name="randomShiftButton" Content="Random" HorizontalAlignment="Left" Margin="198,203,0,0" VerticalAlignment="Top" Width="59" Click="randomShiftButton_Click"/>
+        <RadioButton x:Name="horizontalRadioButton" GroupName="jumpType" Content="Horizontal jumps" HorizontalAlignment="Left" Margin="10,61,0,0" VerticalAlignment="Top" IsChecked="True"/>
+        <RadioButton x:Name="verticalRadioButton" GroupName="jumpType" Content="Vertical jumps" HorizontalAlignment="Left" Margin="10,81,0,0" VerticalAlignment="Top"/>
+        <RadioButton x:Name="rotatingRadioButton" GroupName="jumpType" Content="Rotating jumps" HorizontalAlignment="Left" Margin="10,101,0,0" VerticalAlignment="Top"/>
+    </Grid>
+</Window>

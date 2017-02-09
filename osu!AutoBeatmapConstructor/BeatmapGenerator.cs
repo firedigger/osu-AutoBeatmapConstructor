@@ -14,14 +14,23 @@ namespace osu_AutoBeatmapConstructor
         private Beatmap baseMap;
         public Beatmap generatedMap;
         public MapContextAwareness mapContext;
-        public PatternsGenerator patternGenerator;
+
+        private void removeBreaks()
+        {
+            List<EventBase> events = new List<EventBase>();
+            foreach (var ev in generatedMap.Events)
+            {
+                if (!(ev is BreakEvent))
+                    events.Add(ev);
+            }
+        }
 
         public BeatmapGenerator(Beatmap baseMap)
         {
             this.baseMap = baseMap;
             generatedMap = new Beatmap(baseMap);
+            removeBreaks();
             mapContext = new MapContextAwareness();
-            patternGenerator = new PatternsGenerator(mapContext);
         }
 
         public Beatmap generateBeatmap()
@@ -29,9 +38,22 @@ namespace osu_AutoBeatmapConstructor
             return generatedMap;
         }
 
-        public void addPattern(List<CircleObject> pattern)
+        public void addPatterns(IEnumerable<ConfiguredPattern> patterns)
         {
-            generatedMap.HitObjects.AddRange(pattern);
+            foreach(var pattern in patterns)
+            {
+                if (pattern.type == PatternType.Break)
+                {
+                    BreakEvent b = new BreakEvent();
+                    b.StartTime = (int)mapContext.offset;
+                    generatedMap.HitObjects.AddRange(pattern.generatePattern(mapContext));
+                    b.EndTime = (int)mapContext.offset;
+                }
+                else
+                {
+                    generatedMap.HitObjects.AddRange(pattern.generatePattern(mapContext));
+                }
+            }
         }
 
         public void addBreak(BreakEvent b)

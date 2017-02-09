@@ -1,17 +1,5 @@
-﻿using BMAPI.v1.HitObjects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace osu_AutoBeatmapConstructor
 {
@@ -20,10 +8,7 @@ namespace osu_AutoBeatmapConstructor
     /// </summary>
     public partial class AddStreamDialogue : Window
     {
-        public ConfiguredPattern pattern = null;
-
-        private int points;
-        private int number;
+        public ConfiguredStreams pattern = null;
 
         public AddStreamDialogue()
         {
@@ -35,50 +20,31 @@ namespace osu_AutoBeatmapConstructor
             Close();
         }
 
-        private List<CircleObject> generatePattern()
-        {
-            MapContextAwareness context = ((MainWindow)Application.Current.MainWindow).generator.mapContext;
-            PatternsGenerator generator = ((MainWindow)Application.Current.MainWindow).generator.patternGenerator;
-
-            var notes = new List<CircleObject>();
-
-            this.points = int.Parse(numberOfPointsTextbox.Text);
-            this.number = int.Parse(numberOfPatternsTextbox.Text);
-            if (tillEndCheckbox.IsChecked.Value)
-            {
-                double endOffset = context.endOffset;
-                double currOffset = context.offset;
-
-                int n = (int)Math.Floor((endOffset - currOffset) / context.bpm * 2);
-
-                number = n / points;
-
-            }
-            int spacing = (int)spacingSlider.Value * 4;
-            int shift = (int)shiftSlider.Value;
-            notes.AddRange(generator.generateStreams(points, number, spacing, shift));
-
-            return notes;
-        }
-
         private void OKbutton_Click(object sender, RoutedEventArgs e)
         {
-            string description;
-            var notes = generatePattern();
-
-            if (tillEndCheckbox.IsChecked.Value)
+            try
             {
-                description = points + "-Streams till end";
-            }
-            else
-            {
-                description = number + " " + points + "-Streams";
-            }
+                int points = int.Parse(numberOfPointsTextbox.Text);
 
-            pattern = new ConfiguredPattern(notes, description);
-            pattern.end = tillEndCheckbox.IsChecked.Value;
-            DialogResult = true;
-            Close();
+                int number = 0;
+                bool end = false;
+                if (tillEndCheckbox.IsChecked ?? true)
+                    end = true;
+                else
+                    number = int.Parse(numberOfPatternsTextbox.Text);
+
+                int spacing = (int)spacingSlider.Value;
+                int shift = (int)shiftSlider.Value;
+                
+                pattern = new ConfiguredStreams(points, number, spacing, shift, end);
+
+                DialogResult = true;
+                Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
 
         private void checkBox_Checked(object sender, RoutedEventArgs e)

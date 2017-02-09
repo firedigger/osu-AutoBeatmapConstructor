@@ -7,21 +7,19 @@ using System.Threading.Tasks;
 
 namespace osu_AutoBeatmapConstructor
 {
-    public class ConfiguredPattern
+    public abstract class ConfiguredPattern
     {
-        public List<CircleObject> objects;
-        public string description;
+        public PatternType type;
         public bool end;
-
-        public ConfiguredPattern(List<CircleObject> objects, string description)
+        
+        public ConfiguredPattern(PatternType type, bool end)
         {
-            this.objects = objects;
-            this.description = description;
+            this.type = type;
+            this.end = end;
         }
 
-        public override string ToString()
-        {
-            return description;
-        }
+        public abstract override string ToString();
+
+        public abstract List<CircleObject> generatePattern(MapContextAwareness mapContext);
     }
 }
