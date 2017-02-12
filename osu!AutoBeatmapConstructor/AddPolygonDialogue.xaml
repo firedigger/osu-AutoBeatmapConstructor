@@ -26,7 +26,7 @@
         <Slider x:Name="rotationSlider" HorizontalAlignment="Left" Margin="104,172,0,0" VerticalAlignment="Top" Width="82" Value="15" Minimum="0" Maximum="180"/>
         <Label x:Name="label3" Content="Shift" HorizontalAlignment="Left" Margin="15,206,0,0" VerticalAlignment="Top"/>
         <Slider x:Name="shiftSlider" HorizontalAlignment="Left" Margin="104,214,0,0" VerticalAlignment="Top" Width="82" Value="15" Minimum="0" Maximum="40"/>
-        <CheckBox x:Name="randomizeNoteOrderCheckbox" Content="Randomize note order" HorizontalAlignment="Left" Margin="122,41,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="randomizeNoteOrderCheckbox" Content="Star polygon order" HorizontalAlignment="Left" Margin="122,41,0,0" VerticalAlignment="Top"/>
         <Button x:Name="randomSpacingButton" Content="Random" HorizontalAlignment="Left" Margin="202,132,0,0" VerticalAlignment="Top" Width="59" Click="randomSpacingButton_Click"/>
         <Button x:Name="randomRotationgButton" Content="Random" HorizontalAlignment="Left" Margin="202,172,0,0" VerticalAlignment="Top" Width="59" Click="randomRotationgButton_Click"/>
         <Button x:Name="randomShiftButton" Content="Random" HorizontalAlignment="Left" Margin="202,209,0,0" VerticalAlignment="Top" Width="59" Click="randomShiftButton_Click"/>

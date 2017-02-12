@@ -50,7 +50,7 @@ namespace osu_AutoBeatmapConstructor
             if (end)
             {
                 double endOffset = mapContext.endOffset;
-                double currOffset = mapContext.offset;
+                double currOffset = mapContext.Offset;
 
                 int n = (int)Math.Floor((endOffset - currOffset) / mapContext.bpm / points) - 1;
 
@@ -59,7 +59,7 @@ namespace osu_AutoBeatmapConstructor
 
             List<CircleObject> result = new List<CircleObject>();
 
-            int standard_shift = (int)(spacing * 1.0 / points / Math.Sqrt(2));
+            int standard_shift = (int)(spacing * 1.0 / points * Math.Sqrt(2));
             if (shift < standard_shift)
             {
                 shift = standard_shift;
@@ -70,6 +70,7 @@ namespace osu_AutoBeatmapConstructor
 
             double angle = 0;
             bool flag = false;
+
             for (int i = 0; i < number; ++i)
             {
                 Point2 from = new Point2(mapContext.X, mapContext.Y);
@@ -79,16 +80,24 @@ namespace osu_AutoBeatmapConstructor
                 {
                     flag = true;
                 }
-                while (flag)
+
+                int tmp_spacing = spacing;
+                for(int k = 0; flag; ++k)
                 {
                     angle = Utils.rng.NextDouble() * Math.PI * 2;
 
-                    to = new Point2(from.X + spacing * (float)Math.Cos(angle), from.Y + spacing * (float)Math.Sin(angle));
+                    to = new Point2(from.X + tmp_spacing * (float)Math.Cos(angle), from.Y + tmp_spacing * (float)Math.Sin(angle));
 
                     if (PatternGenerator.checkCoordinateLimits(to))
                     {
                         flag = false;
                     }
+
+                    if (k > 100)
+                    {
+                        tmp_spacing /= 2;
+                    }
+
                 }
 
                 Point2 mid = new Point2((to.X + from.X) / 2, (to.Y + from.Y) / 2);
@@ -106,11 +115,13 @@ namespace osu_AutoBeatmapConstructor
                 pattern[0].Type |= BMAPI.v1.HitObjectType.NewCombo;
                 foreach (var obj in pattern)
                 {
-                    obj.StartTime = (int)mapContext.offset;
-                    mapContext.offset += mapContext.bpm / 2;
+                    obj.StartTime = (int)mapContext.Offset;
+                    mapContext.Offset += mapContext.bpm / 2;
                 }
 
                 result.AddRange(pattern);
+
+                double recommended_shift = calcSpacing(pattern);
 
                 if (!PatternGenerator.checkCoordinateLimits(to.X + shiftx, to.Y + shifty))
                 {
@@ -118,10 +129,10 @@ namespace osu_AutoBeatmapConstructor
                     shiftx = (int)(next.X - mapContext.X);
                     shifty = (int)(next.Y - mapContext.Y);
 
-                    double proportion = Math.Sqrt(Utils.sqr(shiftx) + Utils.sqr(shifty) / 2 / Utils.sqr(shift));
+                    double norm = Math.Sqrt(Utils.sqr(shiftx) + Utils.sqr(shifty));
 
-                    shiftx = (int)(shiftx / proportion);
-                    shifty = (int)(shifty / proportion);
+                    shiftx = (int)(shiftx / norm * recommended_shift);
+                    shifty = (int)(shifty / norm * recommended_shift);
 
                 }
 
@@ -132,6 +143,13 @@ namespace osu_AutoBeatmapConstructor
             return result;
         }
 
+        private double calcSpacing(List<CircleObject> pattern)
+        {
+            if (pattern.Count < 2)
+                throw new Exception("Stream of less than two notes");
+            return pattern.Last().Location.DistanceTo(pattern[pattern.Count - 2].Location);
+        }
+
         public override List<CircleObject> generatePattern(MapContextAwareness context)
         {
             var notes = new List<CircleObject>();
@@ -139,7 +157,7 @@ namespace osu_AutoBeatmapConstructor
             if (end)
             {
                 double endOffset = context.endOffset;
-                double currOffset = context.offset;
+                double currOffset = context.Offset;
 
                 int n = (int)Math.Floor((endOffset - currOffset) / context.bpm * 2);
 

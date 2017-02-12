@@ -5,11 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:osu_AutoBeatmapConstructor"
         mc:Ignorable="d"
-        Title="osu!oAutoBeatmapConstructor" Height="350" Width="525">
+        Title="osu!oAutoBeatmapConstructor" Height="305" Width="525">
     <Grid>
         <Button x:Name="osuSelectButton" Content="Select .osu" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75" Click="osuSelectButton_Click"/>
-        <Button x:Name="generateBeatmapButton" Content="Generate beatmap" HorizontalAlignment="Left" Margin="376,289,0,0" VerticalAlignment="Top" Width="131" Click="generateBeatmapButton_Click"/>
-        <Button x:Name="exitButton" Content="exit" HorizontalAlignment="Left" Margin="296,289,0,0" VerticalAlignment="Top" Width="75" Click="exitButton_Click"/>
+        <Button x:Name="generateBeatmapButton" Content="Generate beatmap" HorizontalAlignment="Left" Margin="374,244,0,0" VerticalAlignment="Top" Width="131" Click="generateBeatmapButton_Click"/>
+        <Button x:Name="exitButton" Content="exit" HorizontalAlignment="Left" Margin="294,244,0,0" VerticalAlignment="Top" Width="75" Click="exitButton_Click"/>
         <ListView x:Name="configuredPatterns" HorizontalAlignment="Left" Height="169" Margin="10,35,0,0" VerticalAlignment="Top" Width="129" ItemsSource="{Binding Path=Patterns, Mode=TwoWay}">
         </ListView>
         <Button x:Name="addPolygonsButton" Content="Add polygons" HorizontalAlignment="Left" Margin="176,35,0,0" VerticalAlignment="Top" Width="89" Click="addPolygonsButton_Click"/>
@@ -19,13 +19,12 @@
         <Label x:Name="label1" Content="Difficulty/Config name" HorizontalAlignment="Left" Margin="144,173,0,0" VerticalAlignment="Top" Height="25"/>
         <Label x:Name="songTitle" Content="Artist - Title" HorizontalAlignment="Left" Margin="10,244,0,0" VerticalAlignment="Top"/>
         <Button x:Name="addBreak" Content="Add a break" HorizontalAlignment="Left" Margin="176,135,0,0" VerticalAlignment="Top" Width="89" Click="addBreak_Click"/>
-        <Button x:Name="randomPatternsButton" Content="Random training map" HorizontalAlignment="Left" Margin="357,35,0,0" VerticalAlignment="Top" Width="128" Click="randomPatternsButton_Click"/>
         <Button x:Name="deletePatternButton" Content="Delete selected pattern" HorizontalAlignment="Left" Margin="10,209,0,0" VerticalAlignment="Top" Width="129" Click="deletePatternButton_Click"/>
         <Button x:Name="addDoubleJumpsButton" Content="Add 1-2 jumps" HorizontalAlignment="Left" Margin="176,110,0,0" VerticalAlignment="Top" Width="111" Click="addDoubleJumpsButton_Click"/>
-        <Button x:Name="loadConfigButton" Content="Load config" HorizontalAlignment="Left" Margin="97,10,0,0" VerticalAlignment="Top" Width="75" Click="loadConfigButton_Click"/>
-        <Button x:Name="saveNewConfigButton" Content="Save config to new file" HorizontalAlignment="Left" Margin="144,209,0,0" VerticalAlignment="Top" Width="132" Click="saveConfigButton_Click"/>
-        <Button x:Name="savePlusConfigButton" Content="Save config to existing file" HorizontalAlignment="Left" Margin="144,234,0,0" VerticalAlignment="Top" Width="150" Click="savePlusConfigButton_Click"/>
-        <Button x:Name="generateFullMapsetFromConfigButton" Content="Generate full mapset from config" HorizontalAlignment="Left" Margin="328,255,0,0" VerticalAlignment="Top" Width="179" Click="generateFullMapsetFromConfigButton_Click"/>
+        <Button x:Name="loadConfigButton" Content="Load config" HorizontalAlignment="Left" Margin="90,10,0,0" VerticalAlignment="Top" Width="75" Click="loadConfigButton_Click"/>
+        <Button x:Name="saveNewConfigButton" Content="Save config to new file" HorizontalAlignment="Left" Margin="328,85,0,0" VerticalAlignment="Top" Width="132" Click="saveConfigButton_Click"/>
+        <Button x:Name="savePlusConfigButton" Content="Save config to existing file" HorizontalAlignment="Left" Margin="328,110,0,0" VerticalAlignment="Top" Width="150" Click="savePlusConfigButton_Click"/>
+        <Button x:Name="generateFullMapsetFromConfigButton" Content="Generate full mapset from config" HorizontalAlignment="Left" Margin="328,60,0,0" VerticalAlignment="Top" Width="179" Click="generateFullMapsetFromConfigButton_Click"/>
 
     </Grid>
 </Window>

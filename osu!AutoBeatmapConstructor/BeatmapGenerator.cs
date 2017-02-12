@@ -30,7 +30,7 @@ namespace osu_AutoBeatmapConstructor
             this.baseMap = baseMap;
             generatedMap = new Beatmap(baseMap);
             removeBreaks();
-            mapContext = new MapContextAwareness();
+            mapContext = null;
         }
 
         public Beatmap generateBeatmap()
@@ -45,9 +45,9 @@ namespace osu_AutoBeatmapConstructor
                 if (pattern.type == PatternType.Break)
                 {
                     BreakEvent b = new BreakEvent();
-                    b.StartTime = (int)mapContext.offset;
+                    b.StartTime = (int)mapContext.Offset;
                     generatedMap.HitObjects.AddRange(pattern.generatePattern(mapContext));
-                    b.EndTime = (int)mapContext.offset;
+                    b.EndTime = (int)mapContext.Offset;
                     addBreak(b);
                 }
                 else
@@ -72,7 +72,7 @@ namespace osu_AutoBeatmapConstructor
         {
             generatedMap = new Beatmap(baseMap);
             removeBreaks();
-            mapContext = new MapContextAwareness();
+            mapContext = null;
         }
     }
 }

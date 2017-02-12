@@ -113,7 +113,11 @@ namespace osu_AutoBeatmapConstructor
                 to = new Point2(x + (float)(Math.Cos(angle) * nextShift), y + (float)(Math.Sin(angle) * nextShift));
 
                 if (k > 100)
-                    throw new Exception("Couldn't find next position: " + x + " " + y + " " + nextShift);
+                {
+                    //throw new Exception("Couldn't find next position: " + x + " " + y + " " + nextShift);
+                    nextShift += 30;
+                    k = 0;
+                }
 
             }
 

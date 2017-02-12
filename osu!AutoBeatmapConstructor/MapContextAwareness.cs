@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BMAPI.v1;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,25 +12,90 @@ namespace osu_AutoBeatmapConstructor
         public int X = 200;
         public int Y = 200;
 
-        public double offset;
+        private double offset;
         public double bpm;
+
+        private List<TimingPoint> timingPoints;
+        private TimingPoint currentTimingPoint;
+        private TimingPoint nextTimingPoint;
 
         public double beginOffset;
         public double endOffset;
 
+        public double Offset
+        {
+            get
+            {
+                return offset;
+            }
+
+            set
+            {
+                offset = value;
+                checkForNewTiming();
+            }
+        }
+
+        private void checkForNewTiming()
+        {
+            if (nextTimingPoint != null && nextTimingPoint.Time <= offset)
+            {
+                currentTimingPoint = nextTimingPoint;
+                updateOffsetBpm();
+                findNextTimingPoint();
+            }
+        }
+
+        private void updateOffsetBpm()
+        {
+            bpm = currentTimingPoint.BpmDelay / 2;
+            offset = Math.Ceiling((offset - currentTimingPoint.Time) / bpm) * bpm + currentTimingPoint.Time;
+        }
+
+        private void findNextTimingPoint()
+        {
+            var i = timingPoints.FindIndex((x) => !x.InheritsBPM && x.Time > currentTimingPoint.Time);
+
+            if (i == -1)
+                nextTimingPoint = null;
+            else
+                nextTimingPoint = timingPoints[i];
+        }
+
+        private void initTiming()
+        {
+            var i = timingPoints.FindIndex((x) => !x.InheritsBPM);
+
+            if (i == -1)
+                throw new Exception("The map has no timing data");
+
+            currentTimingPoint = timingPoints[i];
+
+            findNextTimingPoint();    
+        }
+
+        /*public MapContextAwareness()
+        {
+
+        }*/
+
+        public MapContextAwareness(double bpm, double beginOffset, double endOffset, int X, int Y, List<TimingPoint> timingPoints)
+        {
+            this.bpm = bpm;
+            this.beginOffset = beginOffset;
+            this.endOffset = endOffset;
+            offset = beginOffset;
+            this.X = X;
+            this.Y = Y;
+
+            this.timingPoints = timingPoints;
+            //currentTimingPoint = timingPoints[0];
+            initTiming();
+        }
+
         public object Clone()
         {
-            MapContextAwareness a = new MapContextAwareness();
-
-            a.X = X;
-            a.Y = Y;
-
-            a.offset = offset;
-            a.bpm = bpm;
-
-            a.beginOffset = beginOffset;
-            a.endOffset = endOffset;
-
+            MapContextAwareness a = new MapContextAwareness(bpm, beginOffset, endOffset, X, Y, timingPoints);
             return a;
         }
     }

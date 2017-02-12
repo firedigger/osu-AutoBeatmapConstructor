@@ -717,12 +717,23 @@ namespace BMAPI.v1
             }
         }
 
+        private static string CleanFileName(string fileName)
+        {
+            var illegal = Path.GetInvalidFileNameChars();
+            string res = fileName;
+            foreach(var character in illegal)
+            {
+                res = res.Replace(character.ToString(), "");
+            }
+            return res;
+        }
+
         private void FinishSave(string filename)
         {
-            string path = Folder + "\\" + filename + ".osu";
+            string path = Folder + "\\" + CleanFileName(filename) + ".osu";
             using (StreamWriter sw = new StreamWriter(path))
             {
-                foreach(string l in WriteBuffer)
+                foreach (string l in WriteBuffer)
                     sw.WriteLine(l);
             }
         }

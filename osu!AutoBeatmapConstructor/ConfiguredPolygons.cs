@@ -83,7 +83,7 @@ namespace osu_AutoBeatmapConstructor
             if (end)
             {
                 double endOffset = mapContext.endOffset;
-                double currOffset = mapContext.offset;
+                double currOffset = mapContext.Offset;
 
                 int n = (int)Math.Floor((endOffset - currOffset) / mapContext.bpm / points) - 1;
 
@@ -113,7 +113,8 @@ namespace osu_AutoBeatmapConstructor
 
                 if (randomize)
                 {
-                    ps = PatternGenerator.shuffleOrder(ps);
+                    //ps = PatternGenerator.shuffleOrder(ps);
+                    ps = reoderIntoStar(ps);
                 }
 
                 foreach (var p in ps)
@@ -124,8 +125,8 @@ namespace osu_AutoBeatmapConstructor
 
                 foreach (var obj in ps)
                 {
-                    obj.StartTime = (int)mapContext.offset;
-                    mapContext.offset += mapContext.bpm;
+                    obj.StartTime = (int)mapContext.Offset;
+                    mapContext.Offset += mapContext.bpm;
                 }
 
                 result.AddRange(ps);
@@ -149,6 +150,36 @@ namespace osu_AutoBeatmapConstructor
             return result;
         }
 
+
+        public List<CircleObject> reoderIntoStar(List<CircleObject> polygon)
+        {
+            int n = polygon.Count;
+
+            bool[] used = null; //массив пометок - была ли использована вершина
+            Array.Resize(ref used, n);
+
+            var res = new List<CircleObject>();
+            for (int i = 0; i < n; i++)
+            {
+                if (!used[i])
+                { //если еще не были в вершине
+                    int ptr = i; //текущая вершина
+                    while (!used[ptr])
+                    { //пока не прошли цикл
+                        used[ptr] = true; //помечаем вершину
+                        res.Add(polygon[ptr]); //добавляем бит к звезде
+                        ptr += n / 2; //делаем шаг размера k
+                        if (ptr >= n) //если вышли за пределы индексов
+                            ptr -= n; //вычитаем n
+                                      //то же самое:
+                                      //ptr = (ptr + k) % n;
+                    }
+                }
+            }
+            return res;
+        }
+
+
         public override List<CircleObject> generatePattern(MapContextAwareness context)
         {
             var notes = new List<CircleObject>();
@@ -156,7 +187,7 @@ namespace osu_AutoBeatmapConstructor
             if (end)
             {
                 double endOffset = context.endOffset;
-                double currOffset = context.offset;
+                double currOffset = context.Offset;
 
                 int n = (int)Math.Floor((endOffset - currOffset) / context.bpm);
 

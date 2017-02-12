@@ -30,7 +30,7 @@ namespace osu_AutoBeatmapConstructor
             if (end)
             {
                 double endOffset = mapContext.endOffset;
-                double currOffset = mapContext.offset;
+                double currOffset = mapContext.Offset;
 
                 int n = (int)Math.Floor((endOffset - currOffset) / mapContext.bpm) - 1;
 
@@ -56,8 +56,8 @@ namespace osu_AutoBeatmapConstructor
 
             foreach (var obj in result)
             {
-                obj.StartTime = (int)mapContext.offset;
-                mapContext.offset += mapContext.bpm;
+                obj.StartTime = (int)mapContext.Offset;
+                mapContext.Offset += mapContext.bpm;
             }
 
             return result;
@@ -70,7 +70,7 @@ namespace osu_AutoBeatmapConstructor
             if (end)
             {
                 double endOffset = context.endOffset;
-                double currOffset = context.offset;
+                double currOffset = context.Offset;
 
                 int n = (int)Math.Floor((endOffset - currOffset) / context.bpm) - 1;
 
