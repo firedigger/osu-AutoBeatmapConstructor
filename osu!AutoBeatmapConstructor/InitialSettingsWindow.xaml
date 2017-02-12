@@ -5,16 +5,28 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:osu_AutoBeatmapConstructor"
         mc:Ignorable="d"
-        Title="InitialSettingsWindow" Height="200" Width="350">
+        Title="Initial settings" Height="230" Width="353">
     <Grid Margin="0,0,-8,0">
-        <Label x:Name="label" Content="Set starting offset:" HorizontalAlignment="Left" Margin="11,35,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="label_Copy" Content="Set ending offset:" HorizontalAlignment="Left" Margin="11,66,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="beginOffsetTextbox" HorizontalAlignment="Left" Height="19" Margin="133,42,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="77"/>
-        <TextBox x:Name="endOffsetTextbox" HorizontalAlignment="Left" Height="19" Margin="133,73,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="77"/>
-        <CheckBox x:Name="firstTimingCheckbox" Content="First Timing" HorizontalAlignment="Left" Margin="232,42,-22,0" VerticalAlignment="Top" Height="19" IsChecked="True" Checked="firstTimingChecked" Unchecked="firstTimingUnchecked"/>
-        <CheckBox x:Name="lastObjectCheckbox" Content="Last Object" HorizontalAlignment="Left" Margin="232,73,-19,0" VerticalAlignment="Top" Height="19" Checked="lastObjectChecked" Unchecked="lastObjectUnchecked"/>
-        <CheckBox x:Name="keepOriginalPartCheckbox" Content="Keep the rest of the original map" HorizontalAlignment="Left" Margin="11,107,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="OKbutton" Content="OK" HorizontalAlignment="Left" Margin="265,139,0,0" VerticalAlignment="Top" Width="75" Click="OKbutton_Click"/>
+        <Label x:Name="label" Content="Set starting offset:" HorizontalAlignment="Left" Margin="7,8,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label_Copy" Content="Set ending offset:" HorizontalAlignment="Left" Margin="7,39,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="beginOffsetTextbox" HorizontalAlignment="Left" Height="19" Margin="129,15,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="77"/>
+        <TextBox x:Name="endOffsetTextbox" HorizontalAlignment="Left" Height="19" Margin="129,46,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="77"/>
+        <CheckBox x:Name="firstTimingCheckbox" Content="First Timing" HorizontalAlignment="Left" Margin="228,15,0,0" VerticalAlignment="Top" Height="19" IsChecked="True" Checked="firstTimingChecked" Unchecked="firstTimingUnchecked"/>
+        <CheckBox x:Name="lastObjectCheckbox" Content="Last Object" HorizontalAlignment="Left" Margin="228,46,0,0" VerticalAlignment="Top" Height="19" Checked="lastObjectChecked" Unchecked="lastObjectUnchecked" IsChecked="True"/>
+        <CheckBox x:Name="keepOriginalPartCheckbox" Content="Keep the rest of the original map" HorizontalAlignment="Left" Margin="7,80,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="OKbutton" Content="OK" HorizontalAlignment="Left" Margin="261,112,0,0" VerticalAlignment="Top" Width="75" Click="OKbutton_Click"/>
+        <ComboBox x:Name="tickDivisorComboBox" HorizontalAlignment="Left" Margin="86,110,0,0" VerticalAlignment="Top" Width="120">
+            <ComboBoxItem>1</ComboBoxItem>
+            <ComboBoxItem IsSelected="True">1/2</ComboBoxItem>
+            <ComboBoxItem>1/3</ComboBoxItem>
+            <ComboBoxItem>1/4</ComboBoxItem>
+        </ComboBox>
+        <Label x:Name="label1" Content="Tick divisor" HorizontalAlignment="Left" Margin="7,106,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="overrideStartPointCheckBox" Content="Override starting coordinates" HorizontalAlignment="Left" Margin="6,144,0,0" VerticalAlignment="Top" Checked="overrideStartPointChecked" Unchecked="overrideStartPointUnChecked"/>
+        <TextBox x:Name="XtextBox" HorizontalAlignment="Left" Height="23" Margin="29,168,0,0" TextWrapping="Wrap" Text="32" VerticalAlignment="Top" Width="31" IsEnabled="False"/>
+        <Label x:Name="Xlabel" Content="X" HorizontalAlignment="Left" Margin="7,164,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="YtextBox" HorizontalAlignment="Left" Height="23" Margin="94,168,0,0" TextWrapping="Wrap" Text="32" VerticalAlignment="Top" Width="31" IsEnabled="False"/>
+        <Label x:Name="Ylabel" Content="Y" HorizontalAlignment="Left" Margin="72,164,0,0" VerticalAlignment="Top" />
 
     </Grid>
 </Window>

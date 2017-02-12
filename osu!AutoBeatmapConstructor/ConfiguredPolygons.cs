@@ -8,6 +8,7 @@ using BMAPI;
 
 namespace osu_AutoBeatmapConstructor
 {
+    [Serializable]
     public class ConfiguredPolygons : ConfiguredPattern
     {
         public int points;
@@ -25,6 +26,11 @@ namespace osu_AutoBeatmapConstructor
             this.rotation = rotation;
             this.shift = shift;
             this.randomize = randomize;
+        }
+
+        public ConfiguredPolygons()
+        {
+
         }
 
         private Point2 checkPolygonialBounds(int X, int Y, int spacing)

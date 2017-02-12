@@ -48,5 +48,10 @@ namespace osu_AutoBeatmapConstructor
                 MessageBox.Show(ex.ToString());
             }
         }
+
+        private void randomSeconds_Click(object sender, RoutedEventArgs e)
+        {
+            numberOfSecondsTextbox.Text = Utils.rng.Next(3,20).ToString();
+        }
     }
 }

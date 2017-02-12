@@ -5,14 +5,15 @@ using BMAPI;
 
 namespace osu_AutoBeatmapConstructor
 {
+    [Serializable]
     public class ConfiguredDoubleJumps : ConfiguredPattern
     {
-        private int number;
-        private int spacing;
-        private int shift;
-        private int rotation;
-        private DoubleJumpType jumpType;
-        private bool randomize;
+        public int number;
+        public int spacing;
+        public int shift;
+        public int rotation;
+        public DoubleJumpType jumpType;
+        public bool randomize;
 
         public ConfiguredDoubleJumps(DoubleJumpType jumpType, int number, int spacing, int rotation, int shift, bool randomize, bool end) : base(PatternType.DoubleJumps, end)
         {
@@ -23,6 +24,11 @@ namespace osu_AutoBeatmapConstructor
             this.shift = shift;
             this.randomize = randomize;
             this.end = end;
+        }
+
+        public ConfiguredDoubleJumps()
+        {
+
         }
 
         public List<CircleObject> generateHorizontalPattern(MapContextAwareness mapContext)

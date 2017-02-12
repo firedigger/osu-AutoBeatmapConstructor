@@ -206,7 +206,6 @@ namespace osu_AutoBeatmapConstructor
             Point2 center = new Point2(o1.Location);
             center.X = (o1.Location.X + o2.Location.X) / 2;
 
-
             rotate(result, center, angle);
 
             return result;

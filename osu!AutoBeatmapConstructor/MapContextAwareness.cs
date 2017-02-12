@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace osu_AutoBeatmapConstructor
 {
-    public class MapContextAwareness
+    public class MapContextAwareness : ICloneable
     {
         public int X = 200;
         public int Y = 200;
@@ -16,5 +16,21 @@ namespace osu_AutoBeatmapConstructor
 
         public double beginOffset;
         public double endOffset;
+
+        public object Clone()
+        {
+            MapContextAwareness a = new MapContextAwareness();
+
+            a.X = X;
+            a.Y = Y;
+
+            a.offset = offset;
+            a.bpm = bpm;
+
+            a.beginOffset = beginOffset;
+            a.endOffset = endOffset;
+
+            return a;
+        }
     }
 }

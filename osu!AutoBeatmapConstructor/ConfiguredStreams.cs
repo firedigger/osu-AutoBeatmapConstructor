@@ -8,6 +8,7 @@ using BMAPI;
 
 namespace osu_AutoBeatmapConstructor
 {
+    [Serializable]
     public class ConfiguredStreams : ConfiguredPattern
     {
         public int points;
@@ -21,6 +22,11 @@ namespace osu_AutoBeatmapConstructor
             this.number = number;
             this.spacing = spacing;
             this.shift = shift;
+        }
+
+        public ConfiguredStreams()
+        {
+
         }
 
         public override string ToString()
@@ -53,9 +59,10 @@ namespace osu_AutoBeatmapConstructor
 
             List<CircleObject> result = new List<CircleObject>();
 
-            if (shift == 0)
+            int standard_shift = (int)(spacing * 1.0 / points / Math.Sqrt(2));
+            if (shift < standard_shift)
             {
-                shift = (int)(spacing * 1.0 / points / Math.Sqrt(2));
+                shift = standard_shift;
             }
 
             int shiftx = shift;
@@ -105,15 +112,21 @@ namespace osu_AutoBeatmapConstructor
 
                 result.AddRange(pattern);
 
-                if (!PatternGenerator.checkCoordinateLimits(to.X + shift, to.Y + shift))
+                if (!PatternGenerator.checkCoordinateLimits(to.X + shiftx, to.Y + shifty))
                 {
                     Point2 next = PatternGenerator.findNextPosition(mapContext.X, mapContext.Y, shift);
                     shiftx = (int)(next.X - mapContext.X);
                     shifty = (int)(next.Y - mapContext.Y);
+
+                    double proportion = Math.Sqrt(Utils.sqr(shiftx) + Utils.sqr(shifty) / 2 / Utils.sqr(shift));
+
+                    shiftx = (int)(shiftx / proportion);
+                    shifty = (int)(shifty / proportion);
+
                 }
 
-                mapContext.X = (int)to.X + shift;
-                mapContext.Y = (int)to.Y + shift;
+                mapContext.X = (int)to.X + shiftx;
+                mapContext.Y = (int)to.Y + shifty;
             }
 
             return result;

@@ -40,7 +40,7 @@ namespace osu_AutoBeatmapConstructor
 
         public void addPatterns(IEnumerable<ConfiguredPattern> patterns)
         {
-            foreach(var pattern in patterns)
+            foreach (var pattern in patterns)
             {
                 if (pattern.type == PatternType.Break)
                 {
@@ -55,11 +55,24 @@ namespace osu_AutoBeatmapConstructor
                     generatedMap.HitObjects.AddRange(pattern.generatePattern(mapContext));
                 }
             }
+
+            foreach(var c in generatedMap.HitObjects)
+            {
+                c.Location.X = (int)c.Location.X;
+                c.Location.Y = (int)c.Location.Y;
+            }
         }
 
         public void addBreak(BreakEvent b)
         {
             generatedMap.Events.Add(b);
+        }
+
+        public void clearPatterns()
+        {
+            generatedMap = new Beatmap(baseMap);
+            removeBreaks();
+            mapContext = new MapContextAwareness();
         }
     }
 }

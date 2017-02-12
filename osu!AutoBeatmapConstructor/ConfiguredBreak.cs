@@ -7,13 +7,19 @@ using BMAPI.v1.HitObjects;
 
 namespace osu_AutoBeatmapConstructor
 {
+    [Serializable]
     public class ConfiguredBreak : ConfiguredPattern
     {
-        private int seconds;
+        public int seconds;
 
         public ConfiguredBreak(int seconds) : base(PatternType.Break, false)
         {
             this.seconds = seconds;
+        }
+
+        public ConfiguredBreak()
+        {
+
         }
 
         public override List<CircleObject> generatePattern(MapContextAwareness mapContext)

@@ -16,6 +16,10 @@ using System.Windows.Shapes;
 using BMAPI.v1;
 using System.Collections.ObjectModel;
 using BMAPI.v1.HitObjects;
+using System.Runtime.Serialization;
+using System.IO;
+using System.Runtime.Serialization.Formatters;
+using System.Runtime.Serialization.Formatters.Soap;
 
 namespace osu_AutoBeatmapConstructor
 {
@@ -32,7 +36,7 @@ namespace osu_AutoBeatmapConstructor
         public MainWindow()
         {
             Patterns = new ObservableCollection<ConfiguredPattern>();
-            DataContext = this;
+            this.DataContext = this;
             InitializeComponent();
         }
 
@@ -56,6 +60,7 @@ namespace osu_AutoBeatmapConstructor
                 mapPath = osuFileDialog.FileName;
                 baseBeatmap = new Beatmap(mapPath);
                 songTitle.Content = baseBeatmap.Artist + " - " + baseBeatmap.Title;
+                difficultyNameTextbox.Text = baseBeatmap.Version;
                 generator = new BeatmapGenerator(baseBeatmap);
                 InitialSettingsWindow initialSettingsDialogue = new InitialSettingsWindow();
                 if (initialSettingsDialogue.ShowDialog() ?? true)
@@ -89,6 +94,18 @@ namespace osu_AutoBeatmapConstructor
         {
             TimingPoint current = baseBeatmap.TimingPoints[0];
             generator.mapContext.bpm = current.BpmDelay / 2;
+
+            string tickDivisor = window.tickDivisorComboBox.Text;
+
+            switch (tickDivisor)
+            {
+                case "1/1": generator.mapContext.bpm *= 2; break;
+                case "1/2": break;
+                case "1/3": generator.mapContext.bpm = generator.mapContext.bpm * 2 / 3; break;
+                case "1/4": generator.mapContext.bpm *= 4; break;
+                default: throw new Exception("Unknown tick divisor"); 
+            }
+
             if (window.firstTimingCheckbox.IsChecked.Value)
                 generator.mapContext.beginOffset = current.Time;
             else
@@ -123,6 +140,30 @@ namespace osu_AutoBeatmapConstructor
                 PatternGenerator.copyMap(baseBeatmap, generator.generatedMap, generator.mapContext.offset, generator.mapContext.endOffset);
             }
 
+            if (window.overrideStartPointCheckBox.IsChecked ?? true)
+            {
+                double tmp;
+                if (double.TryParse(window.XtextBox.Text, out tmp))
+                    generator.mapContext.X = (int)tmp;
+                else
+                {
+                    MessageBox.Show("Unable to parse the X coordinate. Please input a valid number or uncheck the override starting position checkbox");
+                    return;
+                }
+
+                if (double.TryParse(window.YtextBox.Text, out tmp))
+                    generator.mapContext.Y = (int)tmp;
+                else
+                {
+                    MessageBox.Show("Unable to parse the Y coordinate. Please input a valid number or uncheck the override starting position checkbox");
+                    return;
+                }
+            }
+            else
+            {
+                generator.mapContext.X = 200;
+                generator.mapContext.Y = 200;
+            }
         }
 
         private double findLastObjectTimingInMap(Beatmap baseBeatmap)
@@ -220,7 +261,7 @@ namespace osu_AutoBeatmapConstructor
         {
             int index = configuredPatterns.SelectedIndex;
             if (index == -1)
-                MessageBox.Show("The pattern list is empty");
+                MessageBox.Show("Please select a pattern");
             else
                 Patterns.RemoveAt(index);
         }
@@ -239,6 +280,79 @@ namespace osu_AutoBeatmapConstructor
             {
                 Patterns.Add(dialog.pattern);
             }
+        }
+
+        private void loadConfigButton_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog selectConfigDialogue = new OpenFileDialog();
+            selectConfigDialogue.Filter = "osu!oABC|*.xml";
+            selectConfigDialogue.Multiselect = false;
+
+            if (selectConfigDialogue.ShowDialog() ?? true)
+            {
+                var obj = ConfigStorage.readFromFile(selectConfigDialogue.FileName);
+
+                SelectConfig selectConfig = new SelectConfig(obj);
+
+                if (selectConfig.ShowDialog() ?? true)
+                {
+                    foreach (var p in selectConfig.selected.patterns)
+                        Patterns.Add(p);
+                }
+            }
+        }
+        
+        private void saveConfigButton_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog saveFileDialogue = new SaveFileDialog();
+            saveFileDialogue.Filter = "osu!oABC config|*.xml";
+
+            if (saveFileDialogue.ShowDialog() ?? true)
+            {
+                var storage = new ConfigStorage();
+                storage.configs.Add(new PatternConfiguration(difficultyNameTextbox.Text, Patterns.ToList()));
+                ConfigStorage.saveToFile(saveFileDialogue.FileName,storage);
+            }
+        }
+
+        private void savePlusConfigButton_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog selectConfigDialogue = new OpenFileDialog();
+            selectConfigDialogue.Filter = "osu!oABC|*.xml";
+            selectConfigDialogue.Multiselect = false;
+
+            if (selectConfigDialogue.ShowDialog() ?? true)
+            {
+                var storage = ConfigStorage.readFromFile(selectConfigDialogue.FileName);
+                storage.configs.Add(new PatternConfiguration(difficultyNameTextbox.Text, Patterns.ToList()));
+                ConfigStorage.saveToFile(selectConfigDialogue.FileName, storage);
+            }
+        }
+
+        private void generateFullMapsetFromConfigButton_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog selectConfigDialogue = new OpenFileDialog();
+            selectConfigDialogue.Filter = "osu!oABC|*.xml";
+            selectConfigDialogue.Multiselect = false;
+
+            if (selectConfigDialogue.ShowDialog() ?? true)
+            {
+                var obj = ConfigStorage.readFromFile(selectConfigDialogue.FileName);
+
+                MapContextAwareness baseContext = (MapContextAwareness)generator.mapContext.Clone();
+
+                foreach (var config in obj.configs)
+                {
+                    generator.clearPatterns();
+                    generator.mapContext = (MapContextAwareness)baseContext.Clone();
+                    generator.addPatterns(config.patterns);
+                    Beatmap generatedMap = generator.generateBeatmap();
+                    generatedMap.Version = config.name;
+                    generatedMap.regenerateFilename();
+                    generatedMap.Save(generatedMap.Filename);
+                }
+            }
+            MessageBox.Show("Maps saved!");
         }
     }
 }

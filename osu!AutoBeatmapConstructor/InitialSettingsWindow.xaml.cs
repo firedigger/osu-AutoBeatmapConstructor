@@ -32,22 +32,34 @@ namespace osu_AutoBeatmapConstructor
 
         private void firstTimingChecked(object sender, RoutedEventArgs e)
         {
-            beginOffsetTextbox.Visibility = Visibility.Hidden;
+            beginOffsetTextbox.IsEnabled = false;
         }
 
         private void firstTimingUnchecked(object sender, RoutedEventArgs e)
         {
-            beginOffsetTextbox.Visibility = Visibility.Visible;
+            beginOffsetTextbox.IsEnabled = true;
         }
 
         private void lastObjectChecked(object sender, RoutedEventArgs e)
         {
-            endOffsetTextbox.Visibility = Visibility.Hidden;
+            endOffsetTextbox.IsEnabled = false;
         }
 
         private void lastObjectUnchecked(object sender, RoutedEventArgs e)
         {
-            endOffsetTextbox.Visibility = Visibility.Visible;
+            endOffsetTextbox.IsEnabled = true;
+        }
+
+        private void overrideStartPointChecked(object sender, RoutedEventArgs e)
+        {
+            XtextBox.IsEnabled = true;
+            YtextBox.IsEnabled = true;
+        }
+
+        private void overrideStartPointUnChecked(object sender, RoutedEventArgs e)
+        {
+            XtextBox.IsEnabled = false;
+            YtextBox.IsEnabled = false;
         }
     }
 }

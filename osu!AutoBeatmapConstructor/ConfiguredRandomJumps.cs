@@ -8,15 +8,21 @@ using BMAPI;
 
 namespace osu_AutoBeatmapConstructor
 {
+    [Serializable]
     public class ConfiguredRandomJumps : ConfiguredPattern
     {
-        private int numberOfNotes;
-        private int spacing;
+        public int numberOfNotes;
+        public int spacing;
 
         public ConfiguredRandomJumps(int numberOfNotes, int spacing, bool end) : base(PatternType.RandomJumps, end)
         {
             this.numberOfNotes = numberOfNotes;
             this.spacing = spacing;
+        }
+
+        public ConfiguredRandomJumps()
+        {
+
         }
 
         public List<CircleObject> generateRandomJumps(MapContextAwareness mapContext, int numberOfNotes, int spacing)
