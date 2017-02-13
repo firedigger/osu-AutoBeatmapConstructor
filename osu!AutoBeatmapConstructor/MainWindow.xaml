@@ -17,7 +17,7 @@
         <Button x:Name="addRandomJumpsButton" Content="Add random jumps" HorizontalAlignment="Left" Margin="176,85,0,0" VerticalAlignment="Top" Width="111" Click="addJumpsButton_Click"/>
         <TextBox x:Name="difficultyNameTextbox" HorizontalAlignment="Left" Height="20" Margin="278,178,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="Generated test"/>
         <Label x:Name="label1" Content="Difficulty/Config name" HorizontalAlignment="Left" Margin="144,173,0,0" VerticalAlignment="Top" Height="25"/>
-        <Label x:Name="songTitle" Content="Artist - Title" HorizontalAlignment="Left" Margin="10,244,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="songTitle" Content="Artist - Title" HorizontalAlignment="Left" Margin="10,234,0,0" VerticalAlignment="Top"/>
         <Button x:Name="addBreak" Content="Add a break" HorizontalAlignment="Left" Margin="176,135,0,0" VerticalAlignment="Top" Width="89" Click="addBreak_Click"/>
         <Button x:Name="deletePatternButton" Content="Delete selected pattern" HorizontalAlignment="Left" Margin="10,209,0,0" VerticalAlignment="Top" Width="129" Click="deletePatternButton_Click"/>
         <Button x:Name="addDoubleJumpsButton" Content="Add 1-2 jumps" HorizontalAlignment="Left" Margin="176,110,0,0" VerticalAlignment="Top" Width="111" Click="addDoubleJumpsButton_Click"/>

@@ -32,6 +32,7 @@ namespace osu_AutoBeatmapConstructor
         private Beatmap baseBeatmap;
         public ObservableCollection<ConfiguredPattern> Patterns { get; set; }
         public BeatmapGenerator generator;
+        private MapContextAwareness baseContext;
 
         public MainWindow()
         {
@@ -62,14 +63,17 @@ namespace osu_AutoBeatmapConstructor
 
             if (osuFileDialog.ShowDialog() ?? true)
             {
-                mapPath = osuFileDialog.FileName;
-                baseBeatmap = new Beatmap(mapPath);
-                songTitle.Content = baseBeatmap.Artist + " - " + baseBeatmap.Title;
-                difficultyNameTextbox.Text = "generated " + baseBeatmap.Version;
-                generator = new BeatmapGenerator(baseBeatmap);
                 InitialSettingsWindow initialSettingsDialogue = new InitialSettingsWindow();
                 if (initialSettingsDialogue.ShowDialog() ?? true)
+                {
+                    mapPath = osuFileDialog.FileName;
+                    baseBeatmap = new Beatmap(mapPath);
+                    songTitle.Content = baseBeatmap.Artist + " - " + baseBeatmap.Title;
+                    difficultyNameTextbox.Text = "generated " + baseBeatmap.Version;
+                    generator = new BeatmapGenerator(baseBeatmap);
                     extractMapContextFromWindow(initialSettingsDialogue);
+                    this.baseContext = (MapContextAwareness)generator.mapContext.Clone();
+                }
             }
         }
 
@@ -87,6 +91,8 @@ namespace osu_AutoBeatmapConstructor
                 return;
             }
 
+            generator.clearPatterns();
+            generator.mapContext = (MapContextAwareness)baseContext.Clone();
             generator.addPatterns(Patterns);
             Beatmap generatedMap = generator.generateBeatmap();
             generatedMap.Version = difficultyNameTextbox.Text;
@@ -370,8 +376,6 @@ namespace osu_AutoBeatmapConstructor
             if (selectConfigDialogue.ShowDialog() ?? true)
             {
                 var obj = ConfigStorage.readFromFile(selectConfigDialogue.FileName);
-
-                MapContextAwareness baseContext = (MapContextAwareness)generator.mapContext.Clone();
 
                 foreach (var config in obj.configs)
                 {

@@ -35,8 +35,9 @@ namespace osu_AutoBeatmapConstructor
 
                 int spacing = (int)spacingSlider.Value;
                 int shift = (int)shiftSlider.Value;
+                int curviness = (int)curvinessSlider.Value;
                 
-                pattern = new ConfiguredStreams(points, number, spacing, shift, end);
+                pattern = new ConfiguredStreams(points, number, spacing, curviness, shift, end);
 
                 DialogResult = true;
                 Close();
@@ -65,6 +66,11 @@ namespace osu_AutoBeatmapConstructor
         private void randomShiftButton_Click(object sender, RoutedEventArgs e)
         {
             Utils.randomizeSlider(this.shiftSlider);
+        }
+
+        private void randomCuvinessButton_Click(object sender, RoutedEventArgs e)
+        {
+            Utils.randomizeSlider(this.curvinessSlider);
         }
     }
 }
