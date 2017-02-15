@@ -23,6 +23,7 @@ namespace osu_AutoBeatmapConstructor
             this.number = number;
             this.spacing = spacing;
             this.shift = shift;
+            this.curviness = curviness;
         }
 
         public ConfiguredStreams()
@@ -90,11 +91,12 @@ namespace osu_AutoBeatmapConstructor
                 }
 
                 int tmp_spacing = distToNextPoint;
-                double dangle = 0.03;
+                //double dangle = 0.03;
                 for (int k = 0; flag; ++k)
                 {
-                    //TODO: check that angle tangence is different
-                    //angle = Utils.rng.NextDouble() * Math.PI * 2;
+                    tmp_angle = Utils.rng.NextDouble() * Math.PI * 2;
+                    while (Math.Abs(Math.Tan(angle) - Math.Tan(tmp_angle)) < 0.05)
+                        tmp_angle = Utils.rng.NextDouble() * Math.PI * 2;
 
                     to = new Point2(from.X + tmp_spacing * (float)Math.Cos(tmp_angle), from.Y + tmp_spacing * (float)Math.Sin(tmp_angle));
 
@@ -104,9 +106,14 @@ namespace osu_AutoBeatmapConstructor
                     }
                     else
                     {
-                        tmp_angle += dangle;
+                        //tmp_angle += dangle;
                         if (k > 1000)
-                            throw new Exception("Spacing too large. Decrease the number of point or spacing.");
+                        {
+                            to = pointToCenter(from, tmp_spacing);
+                            tmp_spacing = (int)(tmp_spacing * 0.9);
+                            k = 0;
+                        }
+                            //throw new Exception("Stream spacing too large. Decrease the number of point or spacing.");
                     }
                 }
 
@@ -114,7 +121,7 @@ namespace osu_AutoBeatmapConstructor
 
                 List<CircleObject> pattern = null;
 
-                if (mid_delta > 20)
+                if (mid_delta > 0.1)
                 {
                     double shift_delta = mid_delta * distToNextPoint;
                     to = binarySeachPoint(from, tmp_angle, distToNextPoint, shift_delta);
@@ -142,16 +149,19 @@ namespace osu_AutoBeatmapConstructor
 
                 result.AddRange(pattern);
 
-                double spacing_shift = calcSpacing(pattern);
+                double spacing_shift = spacing;
                 double recommended_shift = Math.Max(spacing_shift,shift);
 
                 if (!PatternGenerator.checkCoordinateLimits(to.X + shiftx, to.Y + shifty))
                 {
-                    Point2 next = PatternGenerator.findNextPosition(mapContext.X, mapContext.Y, shift);
+                    Point2 next = PatternGenerator.findNextPosition(mapContext.X, mapContext.Y, recommended_shift);
                     shiftx = (int)(next.X - mapContext.X);
                     shifty = (int)(next.Y - mapContext.Y);
 
                     double norm = Math.Sqrt(Utils.sqr(shiftx) + Utils.sqr(shifty));
+
+                    if (norm < 0.1)
+                        norm = 1;
 
                     shiftx = (int)(shiftx / norm * recommended_shift);
                     shifty = (int)(shifty / norm * recommended_shift);
@@ -167,6 +177,18 @@ namespace osu_AutoBeatmapConstructor
             return result;
         }
 
+        private Point2 pointToCenter(Point2 from, int tmp_spacing)
+        {
+            float dx = from.X - (Utils.Xmax + Utils.Xmin) / 2;
+            float dy = from.Y - (Utils.Ymax + Utils.Ymin) / 2;
+
+            float norm = (float)Math.Sqrt(Utils.sqr(dx) + Utils.sqr(dy));
+
+            dx = dx / norm * tmp_spacing;
+            dy = dy / norm * tmp_spacing;
+
+            return new Point2(from.X + dx, from.Y + dy);
+        }
 
         private double calcCircleSegmentLength(Point2 from, Point2 to, Point2 mid)
         {

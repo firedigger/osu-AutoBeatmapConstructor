@@ -8,6 +8,8 @@ namespace osu_AutoBeatmapConstructor
     {
         [XmlElement("name")]
         public string name;
+        [XmlElement("stats")]
+        public BeatmapStats beatmapStats;
         [XmlArray("patterns"), XmlArrayItem("pattern")]
         public List<ConfiguredPattern> patterns;
 
@@ -16,9 +18,10 @@ namespace osu_AutoBeatmapConstructor
             this.patterns = new List<ConfiguredPattern>();
         }
 
-        public PatternConfiguration(string name, List<ConfiguredPattern> patterns)
+        public PatternConfiguration(string name, BeatmapStats beatmapStats, List<ConfiguredPattern> patterns)
         {
             this.name = name;
+            this.beatmapStats = beatmapStats;
             this.patterns = patterns;
         }
         

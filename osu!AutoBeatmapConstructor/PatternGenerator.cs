@@ -107,9 +107,10 @@ namespace osu_AutoBeatmapConstructor
         {
             double angle = rng.NextDouble() * Math.PI * 2;
             Point2 to = new Point2(X + (float)(Math.Cos(angle) * nextShift), Y + (float)(Math.Sin(angle) * nextShift));
-            int k = 0;
-            for (angle = 0; !checkCoordinateLimits(to); angle += 0.3, ++k)
+            for (int k = 0; !checkCoordinateLimits(to); ++k)
             {
+                angle = rng.NextDouble() * Math.PI * 2;
+
                 to = new Point2(X + (float)(Math.Cos(angle) * nextShift), Y + (float)(Math.Sin(angle) * nextShift));
 
                 if (k > 100)

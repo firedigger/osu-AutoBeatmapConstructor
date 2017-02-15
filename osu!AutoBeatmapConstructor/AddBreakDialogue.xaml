@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:osu_AutoBeatmapConstructor"
         mc:Ignorable="d"
-        Title="AddBreakDialogue" Height="120" Width="240">
+        Title="Add break" Height="120" Width="240">
     <Grid>
         <Button x:Name="OKbutton" Content="OK" HorizontalAlignment="Left" Margin="165,50,0,0" VerticalAlignment="Top" Width="46" Height="21" Click="OKbutton_Click" IsDefault="True"/>
         <Button x:Name="CancelButton" Content="Cancel" HorizontalAlignment="Left" Margin="114,50,0,0" VerticalAlignment="Top" Width="46" Height="21" Click="CancelButton_Click" IsCancel="True"/>

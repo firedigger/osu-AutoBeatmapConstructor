@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:osu_AutoBeatmapConstructor"
         mc:Ignorable="d"
-        Title="AddStreamDialogue" Height="300" Width="300">
+        Title="Add streams" Height="300" Width="300">
     <Grid>
         <Button x:Name="OKbutton" Content="OK" HorizontalAlignment="Left" Margin="236,238,0,0" VerticalAlignment="Top" Width="46" Height="21" Click="OKbutton_Click" IsDefault="True"/>
         <Button x:Name="CancelButton" Content="Cancel" HorizontalAlignment="Left" Margin="185,238,0,0" VerticalAlignment="Top" Width="46" Height="21" Click="CancelButton_Click" IsCancel="True"/>
@@ -14,10 +14,10 @@
         <TextBox x:Name="numberOfPatternsTextbox" HorizontalAlignment="Left" Height="20" Margin="149,66,0,0" TextWrapping="Wrap" Text="10" VerticalAlignment="Top" Width="82"/>
         <CheckBox x:Name="tillEndCheckbox" Content="Till the end" HorizontalAlignment="Left" Margin="149,91,0,0" VerticalAlignment="Top" Checked="checkBox_Checked" Unchecked="tillEndCheckbox_Unchecked" Width="82"/>
         <Label x:Name="label2" Content="Spacing" HorizontalAlignment="Left" Margin="15,126,0,0" VerticalAlignment="Top" Width="57"/>
-        <Slider x:Name="spacingSlider" HorizontalAlignment="Left" Margin="104,134,0,0" VerticalAlignment="Top" Width="82" Value="15" Minimum="15" Maximum="30"/>
+        <Slider x:Name="spacingSlider" HorizontalAlignment="Left" Margin="104,134,0,0" VerticalAlignment="Top" Width="82" Value="15" Minimum="15" Maximum="120"/>
         <Label x:Name="label3" Content="Shift" HorizontalAlignment="Left" Margin="15,198,0,0" VerticalAlignment="Top"/>
         <Slider x:Name="shiftSlider" HorizontalAlignment="Left" Margin="104,206,0,0" VerticalAlignment="Top" Width="82" Value="0" Minimum="0" Maximum="50"/>
-        <TextBox x:Name="numberOfPointsTextbox" HorizontalAlignment="Left" Height="20" Margin="129,14,0,0" TextWrapping="Wrap" Text="12" VerticalAlignment="Top" Width="102"/>
+        <TextBox x:Name="numberOfPointsTextbox" HorizontalAlignment="Left" Height="20" Margin="129,14,0,0" TextWrapping="Wrap" Text="4" VerticalAlignment="Top" Width="102"/>
         <Button x:Name="randomSpacingButton" Content="Random" HorizontalAlignment="Left" Margin="202,132,0,0" VerticalAlignment="Top" Width="59" Click="randomSpacingButton_Click"/>
         <Button x:Name="randomShiftButton" Content="Random" HorizontalAlignment="Left" Margin="202,204,0,0" VerticalAlignment="Top" Width="59" Click="randomShiftButton_Click"/>
         <Label x:Name="label3_Copy" Content="Curviness" HorizontalAlignment="Left" Margin="15,164,0,0" VerticalAlignment="Top"/>

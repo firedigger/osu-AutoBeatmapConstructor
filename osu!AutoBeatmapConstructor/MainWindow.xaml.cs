@@ -1,25 +1,9 @@
 ﻿using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using BMAPI.v1;
 using System.Collections.ObjectModel;
-using BMAPI.v1.HitObjects;
-using System.Runtime.Serialization;
-using System.IO;
-using System.Runtime.Serialization.Formatters;
-using System.Runtime.Serialization.Formatters.Soap;
 
 namespace osu_AutoBeatmapConstructor
 {
@@ -33,11 +17,13 @@ namespace osu_AutoBeatmapConstructor
         public ObservableCollection<ConfiguredPattern> Patterns { get; set; }
         public BeatmapGenerator generator;
         private MapContextAwareness baseContext;
+        private BeatmapStats beatmapStats;
 
         public MainWindow()
         {
             Patterns = new ObservableCollection<ConfiguredPattern>();
-            this.DataContext = this;
+            DataContext = this;
+            beatmapStats = new BeatmapStats();
             InitializeComponent();
         }
 
@@ -50,11 +36,6 @@ namespace osu_AutoBeatmapConstructor
         {
             Close();
         }
-
-        /*private int selectedPositionToAdd()
-        {
-            return configuredPatterns.SelectedIndex;
-        }*/
 
         private void osuSelectButton_Click(object sender, RoutedEventArgs e)
         {
@@ -72,9 +53,18 @@ namespace osu_AutoBeatmapConstructor
                     difficultyNameTextbox.Text = "generated " + baseBeatmap.Version;
                     generator = new BeatmapGenerator(baseBeatmap);
                     extractMapContextFromWindow(initialSettingsDialogue);
-                    this.baseContext = (MapContextAwareness)generator.mapContext.Clone();
+                    baseContext = (MapContextAwareness)generator.mapContext.Clone();
+                    applyBeatmapStats(baseBeatmap);
                 }
             }
+        }
+
+        private void applyBeatmapStats(Beatmap baseMap)
+        {
+            beatmapStats.CS = baseBeatmap.CircleSize;
+            beatmapStats.AR = baseBeatmap.ApproachRate;
+            beatmapStats.OD = baseBeatmap.OverallDifficulty;
+            beatmapStats.HP = baseBeatmap.HPDrainRate;
         }
 
         private void generateBeatmapButton_Click(object sender, RoutedEventArgs e)
@@ -96,17 +86,25 @@ namespace osu_AutoBeatmapConstructor
 
             try
             {
-                generator.addPatterns(Patterns);
-            } catch (Exception ex)
+                PatternConfiguration config = new PatternConfiguration(difficultyNameTextbox.Text, beatmapStats, Patterns.ToList());
+                generator.clearPatterns();
+                generator.mapContext = (MapContextAwareness)baseContext.Clone();
+                Beatmap generatedMap = generator.generateBeatmap(config);
+
+                if (!generatedMap.checkObjectsBounds())
+                    MessageBox.Show("WARNING! Some objects were found to be outside of the playfield. Beware.");
+
+                generatedMap.Version = difficultyNameTextbox.Text;
+                generatedMap.regenerateFilename();
+                generatedMap.Save(generatedMap.Filename);
+                MessageBox.Show("Map saved");
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show("My appologies. Something went wrong while constructing the map. The description might help but most likely you chose large spacing for some pattern which the program wasn't able to handle. Please clear the patterns and try again.\n"+ex.ToString());
             }
 
-            Beatmap generatedMap = generator.generateBeatmap();
-            generatedMap.Version = difficultyNameTextbox.Text;
-            generatedMap.regenerateFilename();
-            generatedMap.Save(generatedMap.Filename);
-            MessageBox.Show("Map saved");
+            
         }
 
         private void extractMapContextFromWindow(InitialSettingsWindow window)
@@ -140,8 +138,6 @@ namespace osu_AutoBeatmapConstructor
                     return;
                 }
             }
-
-            //generator.mapContext.Offset = generator.mapContext.beginOffset;
 
             double generator_endOffset;
 
@@ -328,6 +324,7 @@ namespace osu_AutoBeatmapConstructor
                     foreach (var p in selectConfig.selected.patterns)
                         Patterns.Add(p);
                     difficultyNameTextbox.Text = selectConfig.selected.name;
+                    beatmapStats = selectConfig.selected.beatmapStats;
                 }
             }
         }
@@ -340,8 +337,9 @@ namespace osu_AutoBeatmapConstructor
             if (saveFileDialogue.ShowDialog() ?? true)
             {
                 var storage = new ConfigStorage();
-                storage.configs.Add(new PatternConfiguration(difficultyNameTextbox.Text, Patterns.ToList()));
+                storage.configs.Add(new PatternConfiguration(difficultyNameTextbox.Text, beatmapStats, Patterns.ToList()));
                 ConfigStorage.saveToFile(saveFileDialogue.FileName,storage);
+                MessageBox.Show("Configuration saved!");
             }
         }
 
@@ -360,7 +358,7 @@ namespace osu_AutoBeatmapConstructor
                     MessageBoxResult dialogResult = MessageBox.Show("There is already a config with the name " + difficultyNameTextbox.Text + "\nDo you want to override it?", "Override warning!", MessageBoxButton.YesNo);
                     if (dialogResult == MessageBoxResult.Yes)
                     {
-                        storage.configs[existingConfig] = new PatternConfiguration(difficultyNameTextbox.Text, Patterns.ToList());
+                        storage.configs[existingConfig] = new PatternConfiguration(difficultyNameTextbox.Text, beatmapStats,Patterns.ToList());
                     }
                     else if (dialogResult == MessageBoxResult.No)
                     {
@@ -369,9 +367,10 @@ namespace osu_AutoBeatmapConstructor
                 }
                 else
                 {
-                    storage.configs.Add(new PatternConfiguration(difficultyNameTextbox.Text, Patterns.ToList()));
+                    storage.configs.Add(new PatternConfiguration(difficultyNameTextbox.Text, beatmapStats, Patterns.ToList()));
                 }
                 ConfigStorage.saveToFile(selectConfigDialogue.FileName, storage);
+                MessageBox.Show("Configuration saved!");
             }
         }
 
@@ -389,8 +388,7 @@ namespace osu_AutoBeatmapConstructor
                 {
                     generator.clearPatterns();
                     generator.mapContext = (MapContextAwareness)baseContext.Clone();
-                    generator.addPatterns(config.patterns);
-                    Beatmap generatedMap = generator.generateBeatmap();
+                    Beatmap generatedMap = generator.generateBeatmap(config);
                     generatedMap.Version = config.name;
                     generatedMap.regenerateFilename();
                     generatedMap.Save(generatedMap.Filename);
@@ -402,6 +400,12 @@ namespace osu_AutoBeatmapConstructor
         private void clearListButton_Click(object sender, RoutedEventArgs e)
         {
             this.Patterns.Clear();
+        }
+
+        private void changeBeatmapStatsButton_Click(object sender, RoutedEventArgs e)
+        {
+            OverrideBeatmapStatsWindow overrideBeatmapStatsWindow = new OverrideBeatmapStatsWindow(beatmapStats);
+            overrideBeatmapStatsWindow.ShowDialog();
         }
     }
 }

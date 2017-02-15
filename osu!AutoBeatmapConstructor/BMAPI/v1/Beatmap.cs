@@ -520,6 +520,21 @@ namespace BMAPI.v1
             }
         }
 
+        public static bool checkCoordinateLimits(Point2 to)
+        {
+            return to.X >= 0 && to.X <= 512 && to.Y >= 0 && to.Y <= 384;
+        }
+
+        public bool checkObjectsBounds()
+        {
+            foreach (var note in HitObjects)
+            {
+                if (!checkCoordinateLimits(note.Location))
+                    return false;
+            }
+            return true;
+        }
+
         public TimingPoint TimingPointByTime(float time)
         {
             for(var i = this.TimingPoints.Count - 1; i >= 0; i--)

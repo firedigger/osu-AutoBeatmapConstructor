@@ -41,7 +41,11 @@ namespace osu_AutoBeatmapConstructor
 
             for (int i = 0; i < numberOfNotes; ++i)
             {
-                Point2 next = PatternGenerator.findNextPosition(mapContext.X, mapContext.Y, spacing);
+                Point2 next;
+                if (i > 0)
+                    next = PatternGenerator.findNextPosition(mapContext.X, mapContext.Y, spacing);
+                else
+                    next = PatternGenerator.findNextPosition(mapContext.X, mapContext.Y, 0);
                 CircleObject note = new CircleObject();
 
                 if (i % 4 == 0)
