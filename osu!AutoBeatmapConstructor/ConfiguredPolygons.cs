@@ -133,6 +133,7 @@ namespace osu_AutoBeatmapConstructor
                 angle += PatternGenerator.ConvertToRadians(rotation);
                 if (!PatternGenerator.checkCoordinateLimits(X, Y, points, spacing, shiftx, shifty))
                 {
+                    //TODO: add normalization
                     Point2 next = PatternGenerator.findNextPosition(X, Y, shift);
                     shiftx = (int)(next.X - X);
                     shifty = (int)(next.Y - Y);

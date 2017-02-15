@@ -38,7 +38,7 @@ namespace osu_AutoBeatmapConstructor
                     number = int.Parse(numberOfPatternsTextbox.Text);
 
                 int spacing = (int)spacingSlider.Value;
-                int rotation = (int)rotationSlider.Value;
+                double rotation = rotationSlider.Value / 180.0 * Math.PI;
                 int shift = (int)shiftSlider.Value;
 
                 bool randomize = randomizeNoteOrderCheckbox.IsChecked ?? true;

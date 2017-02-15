@@ -93,7 +93,15 @@ namespace osu_AutoBeatmapConstructor
 
             generator.clearPatterns();
             generator.mapContext = (MapContextAwareness)baseContext.Clone();
-            generator.addPatterns(Patterns);
+
+            try
+            {
+                generator.addPatterns(Patterns);
+            } catch (Exception ex)
+            {
+                MessageBox.Show("My appologies. Something went wrong while constructing the map. The description might help but most likely you chose large spacing for some pattern which the program wasn't able to handle. Please clear the patterns and try again.\n"+ex.ToString());
+            }
+
             Beatmap generatedMap = generator.generateBeatmap();
             generatedMap.Version = difficultyNameTextbox.Text;
             generatedMap.regenerateFilename();
@@ -389,6 +397,11 @@ namespace osu_AutoBeatmapConstructor
                 }
                 MessageBox.Show("Maps saved!");
             }
+        }
+
+        private void clearListButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Patterns.Clear();
         }
     }
 }

@@ -67,13 +67,6 @@ namespace osu_AutoBeatmapConstructor
 
             List<CircleObject> result = new List<CircleObject>();
 
-            //int standard_shift = (int)(spacing * 1.0 / points * Math.Sqrt(2));
-            int standard_shift = (int)Math.Sqrt(spacing);
-            if (shift < standard_shift)
-            {
-                shift = standard_shift;
-            }
-
             int shiftx = shift;
             int shifty = shift;
 
@@ -149,7 +142,8 @@ namespace osu_AutoBeatmapConstructor
 
                 result.AddRange(pattern);
 
-                double recommended_shift = calcSpacing(pattern);
+                double spacing_shift = calcSpacing(pattern);
+                double recommended_shift = Math.Max(spacing_shift,shift);
 
                 if (!PatternGenerator.checkCoordinateLimits(to.X + shiftx, to.Y + shifty))
                 {

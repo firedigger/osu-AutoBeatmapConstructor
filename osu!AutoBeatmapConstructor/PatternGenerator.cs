@@ -103,25 +103,39 @@ namespace osu_AutoBeatmapConstructor
             }
         }
 
-        public static Point2 findNextPosition(int x, int y, double nextShift)
+        public static Point2 findNextPosition(int X, int Y, double nextShift)
         {
             double angle = rng.NextDouble() * Math.PI * 2;
-            Point2 to = new Point2(x + (float)(Math.Cos(angle) * nextShift), y + (float)(Math.Sin(angle) * nextShift));
+            Point2 to = new Point2(X + (float)(Math.Cos(angle) * nextShift), Y + (float)(Math.Sin(angle) * nextShift));
             int k = 0;
-            for(angle = 0; !checkCoordinateLimits(to); angle += 0.3, ++k)
+            for (angle = 0; !checkCoordinateLimits(to); angle += 0.3, ++k)
             {
-                to = new Point2(x + (float)(Math.Cos(angle) * nextShift), y + (float)(Math.Sin(angle) * nextShift));
+                to = new Point2(X + (float)(Math.Cos(angle) * nextShift), Y + (float)(Math.Sin(angle) * nextShift));
 
                 if (k > 100)
                 {
                     //throw new Exception("Couldn't find next position: " + x + " " + y + " " + nextShift);
-                    nextShift += 30;
-                    k = 0;
+                    break;
                 }
 
             }
 
+            to = new Point2(X + (float)(Math.Cos(angle) * nextShift), Y + (float)(Math.Sin(angle) * nextShift));
+
+            if (!checkCoordinateLimits(to))
+            {
+                if (to.X < Utils.Xmin)
+                    to.X = Utils.Xmin;
+                if (to.X > Utils.Xmax)
+                    to.X = Utils.Xmax;
+                if (to.Y < Utils.Ymin)
+                    to.Y = Utils.Ymin;
+                if (to.Y > Utils.Ymax)
+                    to.Y = Utils.Ymax;
+            }
+
             return to;
+
         }
 
         public static double ConvertToRadians(double angle)
@@ -225,7 +239,7 @@ namespace osu_AutoBeatmapConstructor
 
             CircleObject o2 = new CircleObject();
             o2.Location = new Point2(start);
-            o2.Location.Y += spacing;
+            o2.Location.Y -= spacing;
             result.Add(o2);
 
             Point2 center = new Point2(o1.Location);
@@ -238,7 +252,7 @@ namespace osu_AutoBeatmapConstructor
 
         public static List<CircleObject> generateRotationalJump(Point2 start, int spacing, double angle, bool randomize)
         {
-            return generateHorizontalJump(start, spacing, angle, randomize);
+            return generateVerticalJump(start, spacing, angle, randomize);
         }
 
     }

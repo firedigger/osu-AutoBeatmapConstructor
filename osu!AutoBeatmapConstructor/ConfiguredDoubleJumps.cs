@@ -11,11 +11,11 @@ namespace osu_AutoBeatmapConstructor
         public int number;
         public int spacing;
         public int shift;
-        public int rotation;
+        public double rotation;
         public DoubleJumpType jumpType;
         public bool randomize;
 
-        public ConfiguredDoubleJumps(DoubleJumpType jumpType, int number, int spacing, int rotation, int shift, bool randomize, bool end) : base(PatternType.DoubleJumps, end)
+        public ConfiguredDoubleJumps(DoubleJumpType jumpType, int number, int spacing, double rotation, int shift, bool randomize, bool end) : base(PatternType.DoubleJumps, end)
         {
             this.jumpType = jumpType;
             this.number = number;
@@ -83,8 +83,7 @@ namespace osu_AutoBeatmapConstructor
                 }
 
                 result.AddRange(ps);
-                //angle += PatternGenerator.ConvertToRadians(rotation);
-                if (!PatternGenerator.checkCoordinateLimits(X + shiftx, Y + shifty))
+                if (checkNextJumpBounds(X + shiftx, Y + shifty, angle))
                 {
                     shifty = -shifty;
                 }
@@ -103,14 +102,14 @@ namespace osu_AutoBeatmapConstructor
 
         private Point2 checkHorizontalJumpBounds(int X, int Y, int spacing, double angle)
         {
-            double dy1 = (Y + spacing * Math.Sin(PatternGenerator.ConvertToRadians(angle)));
-            double dy2 = (Y - spacing * Math.Sin(PatternGenerator.ConvertToRadians(angle)));
+            double dy1 = (Y + spacing * Math.Sin((angle)));
+            double dy2 = (Y - spacing * Math.Sin((angle)));
 
             double upperBoundOverhead = Utils.Ymin - Math.Min(dy1,dy2);
             double downBoundOverhead = Math.Max(dy1, dy2) - Utils.Ymax;
 
-            double dx1 = (X + spacing * Math.Cos(PatternGenerator.ConvertToRadians(angle)));
-            double dx2 = (X - spacing * Math.Cos(PatternGenerator.ConvertToRadians(angle)));
+            double dx1 = (X + spacing * Math.Cos((angle)));
+            double dx2 = (X - spacing * Math.Cos((angle)));
 
             double leftBoundOverhead = Utils.Xmin - Math.Min(dx1, dx2);
             double rightBoundOverhead = Math.Max(dx1, dx2) - Utils.Xmax;
@@ -193,7 +192,7 @@ namespace osu_AutoBeatmapConstructor
 
             var result = new List<CircleObject>();
 
-            double angle = rotation;
+            double angle = 0;
             int X = mapContext.X;
             int Y = mapContext.Y;
 
@@ -202,7 +201,7 @@ namespace osu_AutoBeatmapConstructor
 
             for (int i = 0; i < number; ++i)
             {
-                Point2 pp = checkHorizontalJumpBounds(X, Y, spacing, angle);
+                Point2 pp = checkVerticalJumpBounds(X, Y, spacing, angle);
 
                 if (!ReferenceEquals(pp, null))
                 {
@@ -231,12 +230,18 @@ namespace osu_AutoBeatmapConstructor
                 }
 
                 result.AddRange(ps);
-                angle += PatternGenerator.ConvertToRadians(rotation);
-                if (!PatternGenerator.checkCoordinateLimits(X + shiftx, Y + shifty))
+                angle += rotation;
+                if (checkNextJumpBounds(X + shiftx, Y + shifty, angle))
                 {
                     Point2 next = PatternGenerator.findNextPosition(X, Y, shift);
                     shiftx = (int)(next.X - X);
                     shifty = (int)(next.Y - Y);
+
+                    double norm = Math.Sqrt(Utils.sqr(shiftx) + Utils.sqr(shifty));
+                    double recommended_shift = Math.Sqrt(2 * Utils.sqr(shift));
+
+                    shiftx = (int)(shiftx / norm * recommended_shift);
+                    shifty = (int)(shifty / norm * recommended_shift);
                 }
                 X += shiftx;
                 Y += shifty;
@@ -249,6 +254,11 @@ namespace osu_AutoBeatmapConstructor
             mapContext.Y = (int)nextPosition.Y;
 
             return result;
+        }
+
+        private bool checkNextJumpBounds(int X, int Y, double angle)
+        {
+            return !PatternGenerator.checkCoordinateLimits(X, Y) && !ReferenceEquals(checkVerticalJumpBounds(X, Y, spacing, angle), null);
         }
 
         private List<CircleObject> generateVerticalPattern(MapContextAwareness mapContext)
@@ -303,8 +313,7 @@ namespace osu_AutoBeatmapConstructor
                 }
 
                 result.AddRange(ps);
-                //angle += PatternGenerator.ConvertToRadians(rotation);
-                if (!PatternGenerator.checkCoordinateLimits(X + shiftx, Y + shifty))
+                if (checkNextJumpBounds(X + shiftx, Y + shifty, angle))
                 {
                     shiftx = -shiftx;
                 }
@@ -323,14 +332,14 @@ namespace osu_AutoBeatmapConstructor
 
         private Point2 checkVerticalJumpBounds(int X, int Y, int spacing, double angle)
         {
-            double dy1 = (Y + spacing * Math.Cos(PatternGenerator.ConvertToRadians(angle)));
-            double dy2 = (Y - spacing * Math.Cos(PatternGenerator.ConvertToRadians(angle)));
+            double dy1 = (Y + spacing * Math.Cos(angle));
+            double dy2 = (Y - spacing * Math.Cos(angle));
 
             double upperBoundOverhead = Utils.Ymin - Math.Min(dy1, dy2);
             double downBoundOverhead = Math.Max(dy1, dy2) - Utils.Ymax;
 
-            double dx1 = (X + spacing * Math.Sin(PatternGenerator.ConvertToRadians(angle)));
-            double dx2 = (X - spacing * Math.Sin(PatternGenerator.ConvertToRadians(angle)));
+            double dx1 = (X + spacing * Math.Sin(angle));
+            double dx2 = (X - spacing * Math.Sin(angle));
 
             double leftBoundOverhead = Utils.Xmin - Math.Min(dx1, dx2);
             double rightBoundOverhead = Math.Max(dx1, dx2) - Utils.Xmax;
@@ -373,3 +382,4 @@ namespace osu_AutoBeatmapConstructor
         }
     }
 }
+ 

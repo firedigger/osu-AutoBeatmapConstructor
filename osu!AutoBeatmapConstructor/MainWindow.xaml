@@ -25,6 +25,7 @@
         <Button x:Name="saveNewConfigButton" Content="Save config to new file" HorizontalAlignment="Left" Margin="328,85,0,0" VerticalAlignment="Top" Width="132" Click="saveConfigButton_Click"/>
         <Button x:Name="savePlusConfigButton" Content="Save config to existing file" HorizontalAlignment="Left" Margin="328,110,0,0" VerticalAlignment="Top" Width="150" Click="savePlusConfigButton_Click"/>
         <Button x:Name="generateFullMapsetFromConfigButton" Content="Generate full mapset from config" HorizontalAlignment="Left" Margin="328,60,0,0" VerticalAlignment="Top" Width="179" Click="generateFullMapsetFromConfigButton_Click"/>
+        <Button x:Name="clearListButton" Content="Clear list" HorizontalAlignment="Left" Margin="144,209,0,0" VerticalAlignment="Top" Width="58" Click="clearListButton_Click"/>
 
     </Grid>
 </Window>

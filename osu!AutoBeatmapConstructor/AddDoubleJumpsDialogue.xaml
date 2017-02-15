@@ -13,7 +13,7 @@
         <TextBox x:Name="numberOfPatternsTextbox" HorizontalAlignment="Left" Height="20" Margin="144,12,0,0" TextWrapping="Wrap" Text="10" VerticalAlignment="Top" Width="82"/>
         <CheckBox x:Name="tillEndCheckbox" Content="Till the end" HorizontalAlignment="Left" Margin="154,37,0,0" VerticalAlignment="Top" Checked="checkBox_Checked" Unchecked="tillEndCheckbox_Unchecked" Width="82"/>
         <Label x:Name="label2" Content="Spacing" HorizontalAlignment="Left" Margin="11,120,0,0" VerticalAlignment="Top" Width="57"/>
-        <Slider x:Name="spacingSlider" HorizontalAlignment="Left" Margin="100,128,0,0" VerticalAlignment="Top" Width="82" Value="100" Minimum="1" Maximum="300"/>
+        <Slider x:Name="spacingSlider" HorizontalAlignment="Left" Margin="100,128,0,0" VerticalAlignment="Top" Width="82" Value="100" Minimum="1" Maximum="190"/>
         <Label x:Name="label2_Copy" Content="Rotation" HorizontalAlignment="Left" Margin="11,158,0,0" VerticalAlignment="Top" Width="57"/>
         <Slider x:Name="rotationSlider" HorizontalAlignment="Left" Margin="100,166,0,0" VerticalAlignment="Top" Width="82" Value="0" Minimum="-60" Maximum="60"/>
         <Label x:Name="label3" Content="Shift" HorizontalAlignment="Left" Margin="11,200,0,0" VerticalAlignment="Top"/>

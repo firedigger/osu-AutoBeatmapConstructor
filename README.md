@@ -3,4 +3,3 @@ Automated highly-customizable program for creating pattern-training difficulties
 
 Things to implement before public release:  
 1) Add stuff with triples(doubles)  
-2) Rework streams  
