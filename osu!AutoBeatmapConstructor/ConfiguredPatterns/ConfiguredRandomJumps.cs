@@ -54,7 +54,7 @@ namespace osu_AutoBeatmapConstructor
                 {
                     CircleObject note = new CircleObject();
 
-                    if (c % 4 == 0)
+                    if (j == 0)
                         note.Type |= BMAPI.v1.HitObjectType.NewCombo;
 
                     note.Location = next;
@@ -64,14 +64,17 @@ namespace osu_AutoBeatmapConstructor
                     mapContext.Y = (int)next.Y;
 
                     note.StartTime = (int)mapContext.Offset;
-                    mapContext.Offset += mapContext.bpm / 2;
 
-                    ++c;
+                    if (j < stackNumber - 1)
+                        mapContext.Offset += mapContext.bpm / 2;
                 }
-                mapContext.Offset += mapContext.bpm / 2;
+                if (stackNumber % 2 == 0)
+                    ++c;
+
+                mapContext.Offset += mapContext.bpm;
             }
 
-            if (c % 2 == 0)
+            if (c % 2 == 1)
                 mapContext.Offset += mapContext.bpm / 2;
 
             return result;

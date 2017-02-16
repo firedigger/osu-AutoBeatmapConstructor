@@ -15,10 +15,10 @@
             <ComboBoxItem IsSelected="True">Insane</ComboBoxItem>
             <ComboBoxItem>Ultra</ComboBoxItem>
         </ComboBox>
-        <Label x:Name="label1" Content="Number of patterns:" HorizontalAlignment="Left" Margin="13,40,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label1" Content="Number of sections:" HorizontalAlignment="Left" Margin="13,40,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="numberOfPatternsTextbox" HorizontalAlignment="Left" Height="20" Margin="135,44,0,0" TextWrapping="Wrap" Text="3" VerticalAlignment="Top" Width="98"/>
-        <Label x:Name="label1_Copy" Content="Break after every:" HorizontalAlignment="Left" Margin="29,80,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="breakyEveryPatternTextBox" HorizontalAlignment="Left" Height="20" Margin="135,84,0,0" TextWrapping="Wrap" Text="3" VerticalAlignment="Top" Width="98" RenderTransformOrigin="0.253,0.581"/>
-        <CheckBox x:Name="toEndCheckBox" Content="Make last pattern to end" HorizontalAlignment="Left" Margin="31,118,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label1_Copy" Content="Patterns in a section:" HorizontalAlignment="Left" Margin="11,76,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="breakyEveryPatternTextBox" HorizontalAlignment="Left" Height="20" Margin="135,82,0,0" TextWrapping="Wrap" Text="3" VerticalAlignment="Top" Width="98" RenderTransformOrigin="0.253,0.581"/>
+        <CheckBox x:Name="toEndCheckBox" Content="Make last pattern to end" HorizontalAlignment="Left" Margin="31,114,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>
