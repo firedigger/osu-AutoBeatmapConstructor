@@ -35,12 +35,7 @@ namespace osu_AutoBeatmapConstructor
         {
             if (end)
             {
-                double endOffset = mapContext.endOffset;
-                double currOffset = mapContext.Offset;
-
-                int n = (int)Math.Floor((endOffset - currOffset) / mapContext.bpm / 2) - 1;
-
-                number = n;
+                number = (int)1e6;
             }
 
             var result = new List<CircleObject>();
@@ -52,7 +47,7 @@ namespace osu_AutoBeatmapConstructor
             int shiftx = 0;
             int shifty = shift;
 
-            for (int i = 0; i < number; ++i)
+            for (int i = 0; i < number && mapContext.Offset < mapContext.endOffset; ++i)
             {
                 Point2 pp = checkHorizontalJumpBounds(X, Y, spacing, angle);
 
@@ -182,12 +177,7 @@ namespace osu_AutoBeatmapConstructor
         {
             if (end)
             {
-                double endOffset = mapContext.endOffset;
-                double currOffset = mapContext.Offset;
-
-                int n = (int)Math.Floor((endOffset - currOffset) / mapContext.bpm / 2) - 1;
-
-                number = n;
+                number = (int)1e6;
             }
 
             var result = new List<CircleObject>();
@@ -199,7 +189,7 @@ namespace osu_AutoBeatmapConstructor
             int shiftx = shift;
             int shifty = shift;
 
-            for (int i = 0; i < number; ++i)
+            for (int i = 0; i < number && mapContext.Offset < mapContext.endOffset; ++i)
             {
                 Point2 pp = checkVerticalJumpBounds(X, Y, spacing, angle);
 
@@ -265,12 +255,7 @@ namespace osu_AutoBeatmapConstructor
         {
             if (end)
             {
-                double endOffset = mapContext.endOffset;
-                double currOffset = mapContext.Offset;
-
-                int n = (int)Math.Floor((endOffset - currOffset) / mapContext.bpm / 2) - 1;
-
-                number = n;
+                number = (int)1e6;
             }
 
             var result = new List<CircleObject>();
@@ -282,7 +267,7 @@ namespace osu_AutoBeatmapConstructor
             int shiftx = shift;
             int shifty = 0;
 
-            for (int i = 0; i < number; ++i)
+            for (int i = 0; i < number && mapContext.Offset < mapContext.endOffset; ++i)
             {
                 Point2 pp = checkVerticalJumpBounds(X, Y, spacing, angle);
 
@@ -379,6 +364,19 @@ namespace osu_AutoBeatmapConstructor
             Point2 point = new Point2((float)shiftX + X, (float)shiftY + Y);
 
             return point;
+        }
+
+        public static ConfiguredDoubleJumps randomPattern(int level)
+        {
+            var type = (DoubleJumpType)Utils.rng.Next(2);
+            int number = Utils.rng.Next(5, 10) * level;
+            int spacing = (level - 1) * 60 + Utils.rng.Next(10, 60);
+            double rotation = Utils.rng.Next(-60, 60);
+            int shift = (level - 1) * 50 + Utils.rng.Next(10, 50);
+            bool randomize = Utils.rng.Next(1, 5) <= level;
+
+            ConfiguredDoubleJumps p = new ConfiguredDoubleJumps(type, number, spacing, rotation, shift, randomize, false);
+            return p;
         }
     }
 }

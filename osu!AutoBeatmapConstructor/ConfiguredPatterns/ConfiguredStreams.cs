@@ -63,7 +63,7 @@ namespace osu_AutoBeatmapConstructor
 
                 //int n = (int)Math.Floor((endOffset - currOffset) / mapContext.bpm * 2 / points) - 1;
 
-                number = (int)10e6;
+                number = (int)1e6;
             }
 
             List<CircleObject> result = new List<CircleObject>();
@@ -85,13 +85,8 @@ namespace osu_AutoBeatmapConstructor
                 {
                     flag = true;
                 }
-                else
-                {
-                    //angle = 
-                }
 
                 int tmp_spacing = distToNextPoint;
-                //double dangle = 0.03;
                 for (int k = 0; flag; ++k)
                 {
                     tmp_angle = Utils.rng.NextDouble() * Math.PI * 2;
@@ -106,14 +101,12 @@ namespace osu_AutoBeatmapConstructor
                     }
                     else
                     {
-                        //tmp_angle += dangle;
                         if (k > 1000)
                         {
                             to = pointToCenter(from, tmp_spacing);
                             tmp_spacing = (int)(tmp_spacing * 0.9);
                             k = 0;
                         }
-                            //throw new Exception("Stream spacing too large. Decrease the number of point or spacing.");
                     }
                 }
 
@@ -262,6 +255,18 @@ namespace osu_AutoBeatmapConstructor
             notes.AddRange(generateStreams(context,points, number, spacing, shift));
 
             return notes;
+        }
+
+        public static ConfiguredStreams randomPattern(int level)
+        {
+            int points = Utils.rng.Next(4, 8);
+            int number = Utils.rng.Next(5, 10) * level;
+            int spacing = (level - 1) * 30 + Utils.rng.Next(10,20);
+            int curviness = (level - 1) * 30 + Utils.rng.Next(20);
+            int shift = (level - 1) * 40 + Utils.rng.Next(10, 20);
+
+            ConfiguredStreams p = new ConfiguredStreams(points, number, spacing, curviness, shift, false);
+            return p;
         }
     }
 }

@@ -5,28 +5,43 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:osu_AutoBeatmapConstructor"
         mc:Ignorable="d"
-        Title="osu!oAutoBeatmapConstructor" Height="305" Width="525">
+        Title="osu!oAutoBeatmapConstructor" Height="370" Width="200" KeyDown="Window_KeyDown">
     <Grid>
-        <Button x:Name="osuSelectButton" Content="Select .osu" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75" Click="osuSelectButton_Click"/>
-        <Button x:Name="generateBeatmapButton" Content="Generate beatmap" HorizontalAlignment="Left" Margin="374,244,0,0" VerticalAlignment="Top" Width="131" Click="generateBeatmapButton_Click"/>
-        <Button x:Name="exitButton" Content="exit" HorizontalAlignment="Left" Margin="294,244,0,0" VerticalAlignment="Top" Width="75" Click="exitButton_Click"/>
-        <ListView x:Name="configuredPatterns" HorizontalAlignment="Left" Height="169" Margin="10,35,0,0" VerticalAlignment="Top" Width="129" ItemsSource="{Binding Path=Patterns, Mode=TwoWay}">
+        <DockPanel>
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="_File">
+                    <MenuItem Header="_Open .osu" Click="osuSelectButton_Click"/>
+                    <MenuItem Header="_Help" Click="MenuItem_Click"/>
+                    <MenuItem Header="_Exit" Click="exitButton_Click"/>
+                </MenuItem>
+                <MenuItem Header="_Add">
+                    <MenuItem Header="_Polygons" Click="addPolygonsButton_Click"/>
+                    <MenuItem Header="_Streams" Click="addStreamsButton_Click"/>
+                    <MenuItem Header="_Random stacks" Click="addJumpsButton_Click"/>
+                    <MenuItem Header="_1-2 jumps" Click="addDoubleJumpsButton_Click"/>
+                    <MenuItem Header="_Break" Click="addBreak_Click"/>
+                </MenuItem>
+                <MenuItem Header="_Config">
+                    <MenuItem Header="_Load config" Click="loadConfigButton_Click"/>
+                    <MenuItem Header="_Save config to new file" Click="saveConfigButton_Click"/>
+                    <MenuItem Header="_Save config to existing file" Click="savePlusConfigButton_Click"/>
+                    <MenuItem Header="_Generate random config" Click="randomConfigButton_Click"/>
+                    <MenuItem Header="_Clear list" Click="clearListButton_Click"/>
+                </MenuItem>
+                <MenuItem Header="_Beatmap">
+                    <MenuItem Header="_Generate beatmap" Click="generateBeatmapButton_Click"/>
+                    <MenuItem Header="_Generate full mapset from config" Click="generateFullMapsetFromConfigButton_Click"/>
+                    <MenuItem Header="_Override beatmap stats" Click="changeBeatmapStatsButton_Click"/>
+                </MenuItem>
+            </Menu>
+            <StackPanel></StackPanel>
+        </DockPanel>
+        <ListView x:Name="configuredPatterns" HorizontalAlignment="Left" Height="169" Margin="10,135,0,0" VerticalAlignment="Top" Width="162" ItemsSource="{Binding Path=Patterns, Mode=TwoWay}">
         </ListView>
-        <Button x:Name="addPolygonsButton" Content="Add polygons" HorizontalAlignment="Left" Margin="176,35,0,0" VerticalAlignment="Top" Width="89" Click="addPolygonsButton_Click"/>
-        <Button x:Name="addStreamsButton" Content="Add streams" HorizontalAlignment="Left" Margin="176,60,0,0" VerticalAlignment="Top" Width="89" Click="addStreamsButton_Click"/>
-        <Button x:Name="addRandomJumpsButton" Content="Add random jumps" HorizontalAlignment="Left" Margin="176,85,0,0" VerticalAlignment="Top" Width="111" Click="addJumpsButton_Click"/>
-        <TextBox x:Name="difficultyNameTextbox" HorizontalAlignment="Left" Height="20" Margin="278,178,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="Generated test"/>
-        <Label x:Name="label1" Content="Difficulty/Config name" HorizontalAlignment="Left" Margin="144,173,0,0" VerticalAlignment="Top" Height="25"/>
-        <Label x:Name="songTitle" Content="Artist - Title" HorizontalAlignment="Left" Margin="10,234,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="addBreak" Content="Add a break" HorizontalAlignment="Left" Margin="176,135,0,0" VerticalAlignment="Top" Width="89" Click="addBreak_Click"/>
-        <Button x:Name="deletePatternButton" Content="Delete selected pattern" HorizontalAlignment="Left" Margin="10,209,0,0" VerticalAlignment="Top" Width="129" Click="deletePatternButton_Click"/>
-        <Button x:Name="addDoubleJumpsButton" Content="Add 1-2 jumps" HorizontalAlignment="Left" Margin="176,110,0,0" VerticalAlignment="Top" Width="111" Click="addDoubleJumpsButton_Click"/>
-        <Button x:Name="loadConfigButton" Content="Load config" HorizontalAlignment="Left" Margin="90,10,0,0" VerticalAlignment="Top" Width="75" Click="loadConfigButton_Click"/>
-        <Button x:Name="saveNewConfigButton" Content="Save config to new file" HorizontalAlignment="Left" Margin="328,85,0,0" VerticalAlignment="Top" Width="132" Click="saveConfigButton_Click"/>
-        <Button x:Name="savePlusConfigButton" Content="Save config to existing file" HorizontalAlignment="Left" Margin="328,110,0,0" VerticalAlignment="Top" Width="150" Click="savePlusConfigButton_Click"/>
-        <Button x:Name="generateFullMapsetFromConfigButton" Content="Generate full mapset from config" HorizontalAlignment="Left" Margin="328,60,0,0" VerticalAlignment="Top" Width="179" Click="generateFullMapsetFromConfigButton_Click"/>
-        <Button x:Name="clearListButton" Content="Clear list" HorizontalAlignment="Left" Margin="144,209,0,0" VerticalAlignment="Top" Width="58" Click="clearListButton_Click"/>
-        <Button x:Name="changeBeatmapStatsButton" Content="Override beatmap stats" HorizontalAlignment="Left" Margin="212,209,0,0" VerticalAlignment="Top" Width="137" Click="changeBeatmapStatsButton_Click"/>
-
+        <TextBox x:Name="difficultyNameTextbox" HorizontalAlignment="Left" Height="20" Margin="10,105,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="162" Text="Generated test" MaxLines="1"/>
+        <Label x:Name="label1" Content="Difficulty/Config name" HorizontalAlignment="Left" Margin="10,74,0,0" VerticalAlignment="Top" Height="26"/>
+        <Label x:Name="songArtist" Content="Artist" HorizontalAlignment="Left" Margin="10,23,0,0" VerticalAlignment="Top" Height="31" FontSize="11"/>
+        <Label x:Name="songTitle" Content="Title" HorizontalAlignment="Left" Margin="10,48,0,0" VerticalAlignment="Top" Height="26" FontSize="11"/>
+        <Button x:Name="deletePatternButton" Content="Delete selected pattern" HorizontalAlignment="Left" Margin="10,309,0,0" VerticalAlignment="Top" Width="162" Click="deletePatternButton_Click"/>
     </Grid>
 </Window>

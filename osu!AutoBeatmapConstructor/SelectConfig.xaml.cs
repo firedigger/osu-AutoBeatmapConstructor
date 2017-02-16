@@ -35,7 +35,6 @@ namespace osu_AutoBeatmapConstructor
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-
             if (configsListView.SelectedIndex == -1)
             {
                 MessageBox.Show("No config selected");
@@ -46,6 +45,11 @@ namespace osu_AutoBeatmapConstructor
 
             selected = Patterns[configsListView.SelectedIndex];
 
+            Close();
+        }
+
+        private void cancelButton_Click(object sender, RoutedEventArgs e)
+        {
             Close();
         }
     }

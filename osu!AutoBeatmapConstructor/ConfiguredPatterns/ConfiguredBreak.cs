@@ -7,7 +7,6 @@ using BMAPI.v1.HitObjects;
 
 namespace osu_AutoBeatmapConstructor
 {
-    [Serializable]
     public class ConfiguredBreak : ConfiguredPattern
     {
         public int seconds;
@@ -33,6 +32,14 @@ namespace osu_AutoBeatmapConstructor
         public override string ToString()
         {
             return seconds + " seconds break";
+        }
+
+        public static ConfiguredBreak randomPattern(int level)
+        {
+            int seconds = Utils.rng.Next(10,20);
+
+            ConfiguredBreak p = new ConfiguredBreak(seconds);
+            return p;
         }
     }
 }

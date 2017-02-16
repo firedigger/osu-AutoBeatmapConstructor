@@ -8,7 +8,6 @@ using BMAPI;
 
 namespace osu_AutoBeatmapConstructor
 {
-    [Serializable]
     public class ConfiguredPolygons : ConfiguredPattern
     {
         public int points;
@@ -80,17 +79,7 @@ namespace osu_AutoBeatmapConstructor
 
         public List<CircleObject> generatePolygons(MapContextAwareness mapContext ,int points, int number, int spacing, int rotation, int shift, bool randomize)
         {
-            if (end)
-            {
-                double endOffset = mapContext.endOffset;
-                double currOffset = mapContext.Offset;
-
-                int n = (int)Math.Floor((endOffset - currOffset) / mapContext.bpm / points) - 1;
-
-                number = n;
-            }
-
-            var result = new List<CircleObject>();
+             var result = new List<CircleObject>();
 
             double angle = 0;
             int X = mapContext.X;
@@ -99,7 +88,7 @@ namespace osu_AutoBeatmapConstructor
             int shiftx = shift;
             int shifty = shift;
 
-            for (int i = 0; i < number; ++i)
+            for (int i = 0; i < number && mapContext.Offset < mapContext.endOffset; ++i)
             {
                 Point2 pp = checkPolygonialBounds(X, Y, spacing);
 
@@ -187,13 +176,7 @@ namespace osu_AutoBeatmapConstructor
 
             if (end)
             {
-                double endOffset = context.endOffset;
-                double currOffset = context.Offset;
-
-                int n = (int)Math.Floor((endOffset - currOffset) / context.bpm);
-
-                number = n / points;
-
+                number = (int)1e6;
             }
             notes.AddRange(generatePolygons(context, points, number, spacing, rotation, shift, randomize));
 
@@ -212,6 +195,24 @@ namespace osu_AutoBeatmapConstructor
                 description = number + " " + points + "-Polygons";
             }
             return description;
+        }
+
+        public static ConfiguredPolygons randomPattern(int level)
+        {
+            int points;
+            if (level <= 2)
+                points = Utils.rng.Next(3, 6);
+            else
+                points = Utils.rng.Next(3, 8);
+
+            int number = Utils.rng.Next(5, 10) * level;
+            int spacing = (level - 1) * 60 + Utils.rng.Next(10, 60);
+            int rotation = Utils.rng.Next(5, 60);
+            int shift = Utils.rng.Next(5, 13) * level;
+            bool randomize = Utils.rng.Next(1,5) <= level;
+
+            ConfiguredPolygons p = new ConfiguredPolygons(points, number, spacing, rotation, shift, randomize, false);
+            return p;
         }
     }
 }

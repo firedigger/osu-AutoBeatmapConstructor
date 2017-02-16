@@ -56,17 +56,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AddDoubleJumpsDialogue.xaml.cs">
+    <Compile Include="AddPatternDialogues\AddDoubleJumpsDialogue.xaml.cs">
       <DependentUpon>AddDoubleJumpsDialogue.xaml</DependentUpon>
     </Compile>
     <Compile Include="BeatmapStats.cs" />
-    <Compile Include="ConfigStorage.cs" />
-    <Compile Include="ConfiguredBreak.cs" />
-    <Compile Include="ConfiguredDoubleJumps.cs" />
-    <Compile Include="ConfiguredPolygons.cs" />
-    <Compile Include="ConfiguredRandomJumps.cs" />
-    <Compile Include="ConfiguredStreams.cs" />
-    <Compile Include="DoubleJumpType.cs" />
+    <Compile Include="ChooseLevelDialogue.xaml.cs">
+      <DependentUpon>ChooseLevelDialogue.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ConfiguredPatterns\ConfigStorage.cs" />
+    <Compile Include="ConfiguredPatterns\ConfiguredBreak.cs" />
+    <Compile Include="ConfiguredPatterns\ConfiguredDoubleJumps.cs" />
+    <Compile Include="ConfiguredPatterns\ConfiguredPolygons.cs" />
+    <Compile Include="ConfiguredPatterns\ConfiguredRandomJumps.cs" />
+    <Compile Include="ConfiguredPatterns\ConfiguredStreams.cs" />
+    <Compile Include="ConfiguredPatterns\DoubleJumpType.cs" />
     <Compile Include="OverrideBeatmapStatsWindow.xaml.cs">
       <DependentUpon>OverrideBeatmapStatsWindow.xaml</DependentUpon>
     </Compile>
@@ -75,24 +78,28 @@
     <Compile Include="SelectConfig.xaml.cs">
       <DependentUpon>SelectConfig.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Utils.cs" />
-    <Page Include="AddBreakDialogue.xaml">
+    <Compile Include="Utils\Utils.cs" />
+    <Page Include="AddPatternDialogues\AddBreakDialogue.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="AddDoubleJumpsDialogue.xaml">
+    <Page Include="AddPatternDialogues\AddDoubleJumpsDialogue.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="AddPolygonDialogue.xaml">
+    <Page Include="AddPatternDialogues\AddPolygonDialogue.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="AddRandomJumpsDialogue.xaml">
+    <Page Include="AddPatternDialogues\AddRandomJumpsDialogue.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="AddStreamDialogue.xaml">
+    <Page Include="AddPatternDialogues\AddStreamDialogue.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ChooseLevelDialogue.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -104,16 +111,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="AddBreakDialogue.xaml.cs">
+    <Compile Include="AddPatternDialogues\AddBreakDialogue.xaml.cs">
       <DependentUpon>AddBreakDialogue.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AddPolygonDialogue.xaml.cs">
+    <Compile Include="AddPatternDialogues\AddPolygonDialogue.xaml.cs">
       <DependentUpon>AddPolygonDialogue.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AddRandomJumpsDialogue.xaml.cs">
+    <Compile Include="AddPatternDialogues\AddRandomJumpsDialogue.xaml.cs">
       <DependentUpon>AddRandomJumpsDialogue.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AddStreamDialogue.xaml.cs">
+    <Compile Include="AddPatternDialogues\AddStreamDialogue.xaml.cs">
       <DependentUpon>AddStreamDialogue.xaml</DependentUpon>
     </Compile>
     <Compile Include="App.xaml.cs">
@@ -135,8 +142,8 @@
     <Compile Include="BMAPI\v1\HitObjects\SpinnerObject.cs" />
     <Compile Include="BMAPI\v1\TimingPoint.cs" />
     <Compile Include="BMAPI\Vector2.cs" />
-    <Compile Include="Circle.cs" />
-    <Compile Include="ConfiguredPattern.cs" />
+    <Compile Include="Utils\Circle.cs" />
+    <Compile Include="ConfiguredPatterns\ConfiguredPattern.cs" />
     <Compile Include="Curves\Bezier.cs" />
     <Compile Include="Curves\Catmull.cs" />
     <Compile Include="Curves\Circle.cs" />

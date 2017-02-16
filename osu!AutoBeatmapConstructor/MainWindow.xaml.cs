@@ -4,6 +4,8 @@ using System.Linq;
 using System.Windows;
 using BMAPI.v1;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
+using System.Windows.Controls;
 
 namespace osu_AutoBeatmapConstructor
 {
@@ -49,7 +51,8 @@ namespace osu_AutoBeatmapConstructor
                 {
                     mapPath = osuFileDialog.FileName;
                     baseBeatmap = new Beatmap(mapPath);
-                    songTitle.Content = baseBeatmap.Artist + " - " + baseBeatmap.Title;
+                    songArtist.Content = baseBeatmap.Artist;
+                    songTitle.Content = baseBeatmap.Title;
                     difficultyNameTextbox.Text = "generated " + baseBeatmap.Version;
                     generator = new BeatmapGenerator(baseBeatmap);
                     extractMapContextFromWindow(initialSettingsDialogue);
@@ -198,12 +201,6 @@ namespace osu_AutoBeatmapConstructor
 
         private void addPolygonsButton_Click(object sender, RoutedEventArgs e)
         {
-            if (!mapSelected())
-            {
-                MessageBox.Show("You must select .osu file first!");
-                return;
-            }
-
             AddPolygonDialogue dialog = new AddPolygonDialogue();
             dialog.ShowDialog();
             if (dialog.DialogResult.HasValue && dialog.DialogResult.Value)
@@ -214,12 +211,6 @@ namespace osu_AutoBeatmapConstructor
 
         private void addStreamsButton_Click(object sender, RoutedEventArgs e)
         {
-            if (!mapSelected())
-            {
-                MessageBox.Show("You must select .osu file first!");
-                return;
-            }
-
             AddStreamDialogue dialog = new AddStreamDialogue();
             dialog.ShowDialog();
             if (dialog.DialogResult.HasValue && dialog.DialogResult.Value)
@@ -230,12 +221,6 @@ namespace osu_AutoBeatmapConstructor
 
         private void addJumpsButton_Click(object sender, RoutedEventArgs e)
         {
-            if (!mapSelected())
-            {
-                MessageBox.Show("You must select .osu file first!");
-                return;
-            }
-
             AddRandomJumpsDialogue dialog = new AddRandomJumpsDialogue();
             dialog.ShowDialog();
             if (dialog.DialogResult.HasValue && dialog.DialogResult.Value)
@@ -244,36 +229,8 @@ namespace osu_AutoBeatmapConstructor
             }
         }
 
-        private void randomPatternsButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (!mapSelected())
-            {
-                MessageBox.Show("You must select .osu file first!");
-                return;
-            }
-
-            //TODO implement
-            /*while (generator.mapContext.offset < generator.mapContext.endOffset)
-            {
-                int number = 10;
-                int points = 10;
-                int spacing = 10;
-                int rotation = 10;
-                int shift = 10;
-                bool randomize = true;
-                var pattern = generator.patternGenerator.generatePolygons(points,number,spacing,rotation,shift,randomize);
-                generator.addPattern(pattern);
-            }*/
-        }
-
         private void addBreak_Click(object sender, RoutedEventArgs e)
         {
-            if (!mapSelected())
-            {
-                MessageBox.Show("You must select .osu file first!");
-                return;
-            }
-
             AddBreakDialogue dialog = new AddBreakDialogue();
             dialog.ShowDialog();
             if (dialog.DialogResult.HasValue && dialog.DialogResult.Value)
@@ -284,21 +241,37 @@ namespace osu_AutoBeatmapConstructor
 
         private void deletePatternButton_Click(object sender, RoutedEventArgs e)
         {
+            var items = configuredPatterns.SelectedItems;
+            if (items.Count > 1)
+            {
+                for (int i = items.Count - 1; i >= 0; i--)
+                    Patterns.Remove((ConfiguredPattern)items[i]);
+                configuredPatterns.SelectedIndex = -1;
+                return;
+            }
+
             int index = configuredPatterns.SelectedIndex;
             if (index == -1)
                 MessageBox.Show("Please select a pattern");
             else
+            {
                 Patterns.RemoveAt(index);
+
+                if (Patterns.Count > 0)
+                {
+                    if (index < Patterns.Count)
+                        configuredPatterns.SelectedIndex = index;
+                    else
+                        configuredPatterns.SelectedIndex = index - 1;
+                    ListViewItem item = configuredPatterns.ItemContainerGenerator.ContainerFromIndex(configuredPatterns.SelectedIndex) as ListViewItem;
+                    item.Focus();
+                }
+
+            }
         }
 
         private void addDoubleJumpsButton_Click(object sender, RoutedEventArgs e)
         {
-            if (!mapSelected())
-            {
-                MessageBox.Show("You must select .osu file first!");
-                return;
-            }
-
             AddDoubleJumpsDialogue dialog = new AddDoubleJumpsDialogue();
             dialog.ShowDialog();
             if (dialog.DialogResult.HasValue && dialog.DialogResult.Value)
@@ -399,13 +372,67 @@ namespace osu_AutoBeatmapConstructor
 
         private void clearListButton_Click(object sender, RoutedEventArgs e)
         {
-            this.Patterns.Clear();
+            Patterns.Clear();
         }
 
         private void changeBeatmapStatsButton_Click(object sender, RoutedEventArgs e)
         {
+            if (!mapSelected())
+            {
+                MessageBox.Show("You must select .osu file first!");
+                return;
+            }
             OverrideBeatmapStatsWindow overrideBeatmapStatsWindow = new OverrideBeatmapStatsWindow(beatmapStats);
             overrideBeatmapStatsWindow.ShowDialog();
+        }
+
+        private void randomConfigButton_Click(object sender, RoutedEventArgs e)
+        {
+            ChooseLevelDialogue chooseLevelDialogue = new ChooseLevelDialogue();
+            if (chooseLevelDialogue.ShowDialog() ?? true)
+            {
+                int level = chooseLevelDialogue.level;
+                int count = chooseLevelDialogue.count;
+                int phase = chooseLevelDialogue.phase;
+                bool toEnd = chooseLevelDialogue.toEndCheckBox.IsChecked ?? true;
+
+                for (int i = 0; i < count; ++i)
+                {
+                    for (int j = 0; j < phase; ++j)
+                    {
+                        int patternType = Utils.rng.Next(4);
+                        ConfiguredPattern pattern = null;
+                        switch (patternType)
+                        {
+                            case 0: pattern = ConfiguredDoubleJumps.randomPattern(level); break;
+                            case 1: pattern = ConfiguredPolygons.randomPattern(level); break;
+                            case 2: pattern = ConfiguredRandomJumps.randomPattern(level); break;
+                            case 3: pattern = ConfiguredStreams.randomPattern(level); break;
+                            default: pattern = ConfiguredPolygons.randomPattern(level); break;
+                        }
+                        Patterns.Add(pattern);
+
+                        if (i == count - 1 && j == phase - 1 && toEnd)
+                            pattern.end = true;
+                    }
+
+                    ConfiguredBreak breakP = ConfiguredBreak.randomPattern(level);
+                    Patterns.Add(breakP);
+                }
+            }
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Delete)
+                //deletePatternButton.RaiseEvent(new RoutedEventArgs(deletePatternButton.ClickEvent));
+                deletePatternButton_Click(sender, e);
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            string help = "This is helpful!";
+            MessageBox.Show(help,"Help");
         }
     }
 }

@@ -40,7 +40,10 @@ namespace osu_AutoBeatmapConstructor
 
                 int spacing = (int)spacingSlider.Value;
 
-                pattern = new ConfiguredRandomJumps(number, spacing, end);
+                int maxStack = int.Parse(maxStacksComboBox.Text);
+                bool onlySuch = onlySuchCheckBox.IsChecked ?? true;
+
+                pattern = new ConfiguredRandomJumps(number, spacing, end, maxStack, onlySuch);
 
                 DialogResult = true;
                 Close();
