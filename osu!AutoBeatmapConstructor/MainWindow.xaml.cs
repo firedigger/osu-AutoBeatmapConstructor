@@ -431,7 +431,7 @@ namespace osu_AutoBeatmapConstructor
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
-            string help = "This is helpful!";
+            string help = "Please refer to https://github.com/firedigger/osu-AutoBeatmapConstructor!";
             MessageBox.Show(help,"Help");
         }
     }
