@@ -77,12 +77,5 @@ namespace osu_AutoBeatmapConstructor
         {
             generatedMap.Events.Add(b);
         }
-
-        public void clearPatterns()
-        {
-            generatedMap = new Beatmap(baseMap);
-            removeBreaks();
-            mapContext = null;
-        }
     }
 }

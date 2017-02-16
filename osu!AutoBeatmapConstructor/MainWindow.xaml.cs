@@ -20,6 +20,7 @@ namespace osu_AutoBeatmapConstructor
         public BeatmapGenerator generator;
         private MapContextAwareness baseContext;
         private BeatmapStats beatmapStats;
+        private InitialSettingsWindow initialSettingsDialogue;
 
         public MainWindow()
         {
@@ -31,12 +32,20 @@ namespace osu_AutoBeatmapConstructor
 
         private bool mapSelected()
         {
-            return generator != null;
+            return initialSettingsDialogue != null;
         }
 
         private void exitButton_Click(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        private void initializeBeatmap()
+        {
+            generator = new BeatmapGenerator(baseBeatmap);
+            extractMapContextFromWindow(initialSettingsDialogue);
+            baseContext = (MapContextAwareness)generator.mapContext.Clone();
+            applyBeatmapStats(baseBeatmap);
         }
 
         private void osuSelectButton_Click(object sender, RoutedEventArgs e)
@@ -46,7 +55,7 @@ namespace osu_AutoBeatmapConstructor
 
             if (osuFileDialog.ShowDialog() ?? true)
             {
-                InitialSettingsWindow initialSettingsDialogue = new InitialSettingsWindow();
+                initialSettingsDialogue = new InitialSettingsWindow();
                 if (initialSettingsDialogue.ShowDialog() ?? true)
                 {
                     mapPath = osuFileDialog.FileName;
@@ -54,10 +63,7 @@ namespace osu_AutoBeatmapConstructor
                     songArtist.Content = baseBeatmap.Artist;
                     songTitle.Content = baseBeatmap.Title;
                     difficultyNameTextbox.Text = "generated " + baseBeatmap.Version;
-                    generator = new BeatmapGenerator(baseBeatmap);
-                    extractMapContextFromWindow(initialSettingsDialogue);
-                    baseContext = (MapContextAwareness)generator.mapContext.Clone();
-                    applyBeatmapStats(baseBeatmap);
+                    //initializeBeatmap();
                 }
             }
         }
@@ -84,13 +90,10 @@ namespace osu_AutoBeatmapConstructor
                 return;
             }
 
-            generator.clearPatterns();
-            generator.mapContext = (MapContextAwareness)baseContext.Clone();
-
             try
             {
                 PatternConfiguration config = new PatternConfiguration(difficultyNameTextbox.Text, beatmapStats, Patterns.ToList());
-                generator.clearPatterns();
+                initializeBeatmap();
                 generator.mapContext = (MapContextAwareness)baseContext.Clone();
                 Beatmap generatedMap = generator.generateBeatmap(config);
 
@@ -149,18 +152,13 @@ namespace osu_AutoBeatmapConstructor
             else
             {
                 double tmp;
-                if (double.TryParse(window.beginOffsetTextbox.Text, out tmp))
+                if (double.TryParse(window.endOffsetTextbox.Text, out tmp))
                     generator_endOffset = tmp;
                 else
                 {
                     MessageBox.Show("Unable to parse the begin offset. Please input a valid number or check the Last object checkbox");
                     return;
                 }
-            }
-            
-            if (window.keepOriginalPartCheckbox.IsChecked.Value)
-            {
-                PatternGenerator.copyMap(baseBeatmap, generator.generatedMap, generator.mapContext.Offset, generator.mapContext.endOffset);
             }
 
             int generator_X;
@@ -192,6 +190,11 @@ namespace osu_AutoBeatmapConstructor
             }
 
             generator.mapContext = new MapContextAwareness(generator_bpm, generator_beginOffset, generator_endOffset, generator_X, generator_Y, baseBeatmap.TimingPoints);
+
+            if (window.keepOriginalPartCheckbox.IsChecked.Value)
+            {
+                PatternGenerator.copyMap(baseBeatmap, generator.generatedMap, generator.mapContext.Offset, generator.mapContext.endOffset);
+            }
         }
 
         private double findLastObjectTimingInMap(Beatmap baseBeatmap)
@@ -359,7 +362,7 @@ namespace osu_AutoBeatmapConstructor
 
                 foreach (var config in obj.configs)
                 {
-                    generator.clearPatterns();
+                    initializeBeatmap();
                     generator.mapContext = (MapContextAwareness)baseContext.Clone();
                     Beatmap generatedMap = generator.generateBeatmap(config);
                     generatedMap.Version = config.name;

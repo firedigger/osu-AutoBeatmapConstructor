@@ -64,12 +64,18 @@ namespace osu_AutoBeatmapConstructor
 
         private void initTiming()
         {
-            var i = timingPoints.FindIndex((x) => !x.InheritsBPM);
+            int i;
+            for (i = timingPoints.Count - 1; i >= 0; --i)
+            {
+                if (!timingPoints[i].InheritsBPM && timingPoints[i].Time <= beginOffset)
+                    break;
+            }
 
             if (i == -1)
                 throw new Exception("The map has no timing data");
 
             currentTimingPoint = timingPoints[i];
+            updateOffsetBpm();
 
             findNextTimingPoint();    
         }
