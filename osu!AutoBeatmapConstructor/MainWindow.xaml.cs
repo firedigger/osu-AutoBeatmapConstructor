@@ -6,6 +6,7 @@ using BMAPI.v1;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using System.Windows.Controls;
+using System.Collections.Generic;
 
 namespace osu_AutoBeatmapConstructor
 {
@@ -21,6 +22,7 @@ namespace osu_AutoBeatmapConstructor
         private MapContextAwareness baseContext;
         private BeatmapStats beatmapStats;
         private InitialSettingsWindow initialSettingsDialogue;
+        private List<ConfiguredPattern> patternBuffer;
 
         public MainWindow()
         {
@@ -116,16 +118,18 @@ namespace osu_AutoBeatmapConstructor
         private void extractMapContextFromWindow(InitialSettingsWindow window)
         {
             TimingPoint current = baseBeatmap.TimingPoints[0];
-            double generator_bpm = current.BpmDelay / 2;
+            //double generator_bpm = current.BpmDelay / 2;
 
             string tickDivisor = window.tickDivisorComboBox.Text;
 
+            double bpm_multiplier;
+
             switch (tickDivisor)
             {
-                case "1/1": generator_bpm *= 2; break;
-                case "1/2": break;
-                case "1/3": generator_bpm = generator_bpm * 2 / 3; break;
-                case "1/4": generator_bpm *= 4; break;
+                case "1/1": bpm_multiplier = 2; break;
+                case "1/2": bpm_multiplier = 1; break;
+                case "1/3": bpm_multiplier = 2.0 / 3; break;
+                case "1/4": bpm_multiplier = 0.5; break;
                 default: throw new Exception("Unknown tick divisor"); 
             }
 
@@ -189,7 +193,7 @@ namespace osu_AutoBeatmapConstructor
                 generator_Y = 200;
             }
 
-            generator.mapContext = new MapContextAwareness(generator_bpm, generator_beginOffset, generator_endOffset, generator_X, generator_Y, baseBeatmap.TimingPoints);
+            generator.mapContext = new MapContextAwareness(bpm_multiplier, generator_beginOffset, generator_endOffset, generator_X, generator_Y, baseBeatmap.TimingPoints);
 
             if (window.keepOriginalPartCheckbox.IsChecked.Value)
             {
@@ -428,8 +432,42 @@ namespace osu_AutoBeatmapConstructor
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Delete)
-                //deletePatternButton.RaiseEvent(new RoutedEventArgs(deletePatternButton.ClickEvent));
+            {
                 deletePatternButton_Click(sender, e);
+                return;
+            }
+
+            if (e.KeyboardDevice.IsKeyDown(Key.LeftCtrl) && e.KeyboardDevice.IsKeyDown(Key.C))
+            {
+                copySelectedPatterns();
+            }
+
+            if (e.KeyboardDevice.IsKeyDown(Key.LeftCtrl) && e.KeyboardDevice.IsKeyDown(Key.V))
+            {
+                pastePatterns();
+            }
+        }
+
+        private void pastePatterns()
+        {
+            if (patternBuffer != null)
+            {
+                foreach(var p in patternBuffer)
+                {
+                    this.Patterns.Add(p);
+                }
+            }
+        }
+
+        private void copySelectedPatterns()
+        {
+            var items = configuredPatterns.SelectedItems;
+            List<ConfiguredPattern> a = new List<ConfiguredPattern>();
+            for (int i = items.Count - 1; i >= 0; i--)
+            {
+                a.Add(this.Patterns[i]);
+            }
+            this.patternBuffer = a;
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)

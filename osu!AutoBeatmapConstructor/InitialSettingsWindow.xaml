@@ -16,7 +16,7 @@
         <CheckBox x:Name="keepOriginalPartCheckbox" Content="Keep the rest of the original map" HorizontalAlignment="Left" Margin="7,80,0,0" VerticalAlignment="Top"/>
         <Button x:Name="OKbutton" Content="OK" HorizontalAlignment="Left" Margin="261,112,0,0" VerticalAlignment="Top" Width="75" Click="OKbutton_Click"/>
         <ComboBox x:Name="tickDivisorComboBox" HorizontalAlignment="Left" Margin="86,110,0,0" VerticalAlignment="Top" Width="120">
-            <ComboBoxItem>1</ComboBoxItem>
+            <ComboBoxItem>1/1</ComboBoxItem>
             <ComboBoxItem IsSelected="True">1/2</ComboBoxItem>
             <ComboBoxItem>1/3</ComboBoxItem>
             <ComboBoxItem>1/4</ComboBoxItem>

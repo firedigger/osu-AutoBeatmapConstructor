@@ -21,6 +21,7 @@ namespace osu_AutoBeatmapConstructor
 
         public double beginOffset;
         public double endOffset;
+        private double bpm_multiplier;
 
         public double Offset
         {
@@ -48,7 +49,7 @@ namespace osu_AutoBeatmapConstructor
 
         private void updateOffsetBpm()
         {
-            bpm = currentTimingPoint.BpmDelay / 2;
+            bpm = currentTimingPoint.BpmDelay / 2.0 * bpm_multiplier;
             offset = Math.Ceiling((offset - currentTimingPoint.Time) / bpm) * bpm + currentTimingPoint.Time;
         }
 
@@ -85,9 +86,9 @@ namespace osu_AutoBeatmapConstructor
 
         }*/
 
-        public MapContextAwareness(double bpm, double beginOffset, double endOffset, int X, int Y, List<TimingPoint> timingPoints)
+        public MapContextAwareness(double bpm_multiplier, double beginOffset, double endOffset, int X, int Y, List<TimingPoint> timingPoints)
         {
-            this.bpm = bpm;
+            this.bpm_multiplier = bpm_multiplier;
             this.beginOffset = beginOffset;
             this.endOffset = endOffset;
             offset = beginOffset;
@@ -95,13 +96,12 @@ namespace osu_AutoBeatmapConstructor
             this.Y = Y;
 
             this.timingPoints = timingPoints;
-            //currentTimingPoint = timingPoints[0];
             initTiming();
         }
 
         public object Clone()
         {
-            MapContextAwareness a = new MapContextAwareness(bpm, beginOffset, endOffset, X, Y, timingPoints);
+            MapContextAwareness a = new MapContextAwareness(bpm_multiplier, beginOffset, endOffset, X, Y, timingPoints);
             return a;
         }
     }
