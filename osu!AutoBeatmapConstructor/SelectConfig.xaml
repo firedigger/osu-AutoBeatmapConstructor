@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:osu_AutoBeatmapConstructor"
         mc:Ignorable="d"
-        Title="Select config" Height="245" Width="155">
+        Title="Select config" Height="245" Width="155" ResizeMode="CanMinimize">
     <Grid>
         <ListView x:Name="configsListView" HorizontalAlignment="Left" Height="169" Margin="10,11,0,0" VerticalAlignment="Top" Width="129" ItemsSource="{Binding Path=Patterns,Mode=TwoWay}"/>
         <Button x:Name="button" Content="Select" HorizontalAlignment="Left" Margin="76,185,0,0" VerticalAlignment="Top" Width="63" Click="button_Click"/>

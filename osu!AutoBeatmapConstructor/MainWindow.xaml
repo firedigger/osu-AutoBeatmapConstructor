@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:osu_AutoBeatmapConstructor"
         mc:Ignorable="d"
-        Title="osu!oAutoBeatmapConstructor" Height="370" Width="200" KeyDown="Window_KeyDown">
+        Title="osu!oAutoBeatmapConstructor" Height="370" Width="200" KeyDown="Window_KeyDown" ResizeMode="CanMinimize">
     <Grid>
         <DockPanel>
             <Menu DockPanel.Dock="Top">

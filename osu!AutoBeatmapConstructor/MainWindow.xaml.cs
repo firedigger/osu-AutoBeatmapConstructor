@@ -47,7 +47,6 @@ namespace osu_AutoBeatmapConstructor
             generator = new BeatmapGenerator(baseBeatmap);
             extractMapContextFromWindow(initialSettingsDialogue);
             baseContext = (MapContextAwareness)generator.mapContext.Clone();
-            applyBeatmapStats(baseBeatmap);
         }
 
         private void osuSelectButton_Click(object sender, RoutedEventArgs e)
@@ -65,7 +64,7 @@ namespace osu_AutoBeatmapConstructor
                     songArtist.Content = baseBeatmap.Artist;
                     songTitle.Content = baseBeatmap.Title;
                     difficultyNameTextbox.Text = "generated " + baseBeatmap.Version;
-                    //initializeBeatmap();
+                    applyBeatmapStats(baseBeatmap);
                 }
             }
         }

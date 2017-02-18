@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:osu_AutoBeatmapConstructor"
         mc:Ignorable="d"
-        Title="Override beatmap stats" Height="300" Width="300">
+        Title="Override beatmap stats" Height="300" Width="300" ResizeMode="CanMinimize">
     <Grid>
         <Label x:Name="label" Content="CS(Circle size)" HorizontalAlignment="Left" Margin="32,35,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="CSTextBox" HorizontalAlignment="Left" Height="23" Margin="120,38,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
@@ -17,6 +17,5 @@
         <TextBox x:Name="ODTextBox" HorizontalAlignment="Left" Height="23" Margin="120,117,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
         <Label x:Name="label_Copy2" Content="HP(HP drain rate)" HorizontalAlignment="Left" Margin="10,154,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="HPTextBox" HorizontalAlignment="Left" Height="23" Margin="120,157,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-
     </Grid>
 </Window>

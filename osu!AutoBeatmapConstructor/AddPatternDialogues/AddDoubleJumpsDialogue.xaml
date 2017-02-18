@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:osu_AutoBeatmapConstructor"
         mc:Ignorable="d"
-        Title="Add 1-2 jumps" Height="290" Width="279.957">
+        Title="Add 1-2 jumps" Height="290" Width="279.957" ResizeMode="CanMinimize">
     <Grid>
         <Button x:Name="OKbutton" Content="OK" HorizontalAlignment="Left" Margin="212,231,0,0" VerticalAlignment="Top" Width="46" Height="21" Click="OKbutton_Click" IsDefault="True"/>
         <Button x:Name="CancelButton" Content="Cancel" HorizontalAlignment="Left" Margin="161,231,0,0" VerticalAlignment="Top" Width="46" Height="21" Click="CancelButton_Click" IsCancel="True"/>

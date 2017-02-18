@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:osu_AutoBeatmapConstructor"
         mc:Ignorable="d"
-        Title="Initial settings" Height="230" Width="353">
+        Title="Initial settings" Height="230" Width="353" ResizeMode="CanMinimize">
     <Grid Margin="0,0,-8,0">
         <Label x:Name="label" Content="Set starting offset:" HorizontalAlignment="Left" Margin="7,8,0,0" VerticalAlignment="Top"/>
         <Label x:Name="label_Copy" Content="Set ending offset:" HorizontalAlignment="Left" Margin="7,39,0,0" VerticalAlignment="Top"/>

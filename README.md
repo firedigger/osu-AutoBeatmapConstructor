@@ -44,7 +44,7 @@ Shift is the shift for every sequential 1-2 jump, starting from 0 to some small 
 5) Breaks  
 Sometimes after singletap or stream spam you'd want a break, and that exactly does it, for arbitrary number of seconds.  
   
-This covers the patterns to be creates. The added patterns will be listed in the main window. You can delete one or multiple selected elements (you can't move them though and you can only add a new pattern to the end of the list). You can also clear the list with Config-Clear list.  
+This covers the patterns to be creates. The added patterns will be listed in the main window. You can also use Ctrl-C + Ctrl-V combination to copy patterns. You can delete one or multiple selected elements using the button or keyboard Del key (you can't move them though and you can only add a new pattern to the end of the list). You can also clear the list with Config-Clear list.  
 
 To finally generate the beatmap, click Beatmap->Generate beatmap. That's the simplest forward pass, but there is some more stuff implemented so keep reading.  
 
